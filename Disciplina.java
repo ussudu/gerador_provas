@@ -2,11 +2,13 @@ public class Disciplina {
     private int codigo;
     private String nome;
     private String[] assuntos;
+    private Usuario usuario;
+    private Professor professor;
 
     public Disciplina(int codigo, String nome) {
         this.codigo = codigo;
         this.nome = nome;
-        this.assuntos = new String[0];
+        this.assuntos = new String[0]; // começa sem assuntos
     }
 
     public int getCodigo() {
@@ -39,16 +41,36 @@ public class Disciplina {
         }
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        if (usuario != null) {
+            this.usuario = usuario;
+        }
+    }
+
+    public Professor getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(Professor professor) {
+        if (professor != null) {
+            this.professor = professor;
+        }
+    }
+
     public void adicionarAssunto(String assunto) {
         if (assunto != null && !assunto.isEmpty()) {
             String[] assuntosAtualizados = new String[assuntos.length + 1];
 
-            // copia os assuntos antigos para o novo vetor
+            // copia os assuntos antigos
             for (int i = 0; i < assuntos.length; i++) {
                 assuntosAtualizados[i] = assuntos[i];
             }
 
-            // adiciona o novo assunto na última posição
+            // adiciona o novo assunto
             assuntosAtualizados[assuntos.length] = assunto;
 
             // atualiza o vetor principal
@@ -59,7 +81,7 @@ public class Disciplina {
     public void removerAssunto(String assunto) {
         int posicao = -1;
 
-        // procura a posição do assunto que será removido
+        // procura a posição do assunto
         for (int i = 0; i < assuntos.length; i++) {
             if (assuntos[i].equals(assunto)) {
                 posicao = i;
@@ -70,7 +92,7 @@ public class Disciplina {
             String[] assuntosAtualizados = new String[assuntos.length - 1];
             int j = 0;
 
-            // copia todos os assuntos, menos o que será removido
+            // copia tudo menos o removido
             for (int i = 0; i < assuntos.length; i++) {
                 if (i != posicao) {
                     assuntosAtualizados[j] = assuntos[i];
