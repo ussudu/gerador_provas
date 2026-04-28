@@ -96,7 +96,7 @@ public class SistArq {
         Usuario autor = this.usuarioLogado; 
         
         if (autor != null) {
-            Questao nova = new Questao(codQuestao, enunciado, disciplina, assunto, nivel, autor);
+            Questao nova = new Questao(codQuestao, enunciado, disciplina, assunto, nivel, autor, null);
             adicionarQuestao(nova);
             System.out.println("Questão cadastrada com sucesso!");
             codQuestao++;
