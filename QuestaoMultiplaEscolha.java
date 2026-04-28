@@ -27,6 +27,17 @@ public class QuestaoMultiplaEscolha{
     public void setAssunto(String assunto) { this.assunto = assunto; }
     public void setNivelDificuldade(int nivelDificuldade) { this.nivelDificuldade = nivelDificuldade; }
 
+    public QuestaoMultiplaEscolha(int codigo, String tipo, String enunciado, String gabarito, Disciplina disciplina, String assunto, int nivelDificuldade) {
+        this.codigo = codigo;
+        this.tipo = tipo;
+        this.enunciado = enunciado;
+        this.gabarito = gabarito;
+        this.disciplina = disciplina;
+        this.assunto = assunto;
+        this.nivelDificuldade = nivelDificuldade;
+        this.alternativas = new String[0];
+    }
+
     public void addAlternativa(String alternativa){
         String[] novoArray = new String[alternativas.length + 1]; // cria um novo Array com o tamanho +1
 

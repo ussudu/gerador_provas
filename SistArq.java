@@ -9,6 +9,7 @@ public class SistArq {
     private Questao[] questoes;
     private int codQuestao = 1;
     private QuestaoMultiplaEscolha[] questoesMultiplaEscolha;
+    private int codQuestaoME = 1;
     private Disciplina[] disciplinas;
     private int codDisciplina = 1;
 
@@ -134,6 +135,52 @@ public class SistArq {
                 System.out.println("Questão removida.");
             } else {
                 System.out.println("Erro: Questão não encontrada.");
+            }
+        }
+    }
+
+
+    //gerenciamento questões múltipla escolha
+
+    public void cadastrarQuestaoMultiplaEscolha(String tipo, String enunciado, String gabarito, Disciplina disciplina, String assunto, int nivelDificuldade) {
+        Usuario autor = this.usuarioLogado;
+        if (autor != null) {
+            QuestaoMultiplaEscolha nova = new QuestaoMultiplaEscolha(codQuestaoME, tipo, enunciado, gabarito, disciplina, assunto, nivelDificuldade);
+            adicionarQuestaoMultiplaEscolha(nova);
+            codQuestaoME++;
+        }
+    }
+
+    public void adicionarQuestaoMultiplaEscolha(QuestaoMultiplaEscolha questao) {
+        if (questao != null) {
+            QuestaoMultiplaEscolha[] novo = new QuestaoMultiplaEscolha[this.questoesMultiplaEscolha.length + 1];
+            for (int i = 0; i < questoesMultiplaEscolha.length; i++) {
+                novo[i] = questoesMultiplaEscolha[i];
+            }
+            novo[questoesMultiplaEscolha.length] = questao;
+            this.questoesMultiplaEscolha = novo;
+        }
+    }
+
+    public void removerQuestaoMultiplaEscolha(QuestaoMultiplaEscolha questao) {
+        if (this.usuarioLogado != null) {
+            int pos = -1;
+            int i = 0;
+            while (i < questoesMultiplaEscolha.length && pos == -1) {
+                if (questoesMultiplaEscolha[i] == questao) {
+                    pos = i;
+                }
+                i++;
+            }
+            if (pos != -1) {
+                QuestaoMultiplaEscolha[] novo = new QuestaoMultiplaEscolha[questoesMultiplaEscolha.length - 1];
+                int j = 0;
+                for (int k = 0; k < questoesMultiplaEscolha.length; k++) {
+                    if (k != pos) {
+                        novo[j++] = questoesMultiplaEscolha[k];
+                    }
+                }
+                this.questoesMultiplaEscolha = novo;
             }
         }
     }
