@@ -4,7 +4,7 @@ module geradorProvas.javafx {
     
     requires java.sql;
 
-    opens view.screens to javafx.fxml;
+    opens view to javafx.fxml;
     
-    exports view.screens; 
+    exports view; 
 }
