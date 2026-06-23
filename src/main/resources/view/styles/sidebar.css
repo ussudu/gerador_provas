@@ -1,0 +1,30 @@
+.sidebar {
+    -fx-background-color: #ffffff; 
+}
+
+.botao-menu {
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-background-color: transparent;
+    -fx-text-fill: #71717a;
+    -fx-font-size: 16px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 15px;
+    -fx-background-radius: 12px; 
+    -fx-cursor: hand;
+}
+
+.botao-menu:hover {
+    -fx-background-color: #f4f4f5;
+    -fx-text-fill: #52525b;
+}
+
+.botao-menu-ativo {
+    -fx-background-color: #eef2ff;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-text-fill: #4f81fb;
+    -fx-background-radius: 12px;
+    -fx-font-size: 16px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 12px 20px;
+    -fx-cursor: default;
+}
