@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="700.0" styleClass="container" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+   
+   <top>
+       <fx:include source="header.fxml" /> 
+   </top>
+   
+   <left>
+       <VBox>
+           <BorderPane.margin>
+               <Insets left="15.0" top="20.0" />
+           </BorderPane.margin>
+           <fx:include source="sidebar.fxml" />
+       </VBox>
+   </left>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="67.0" prefWidth="555.0">
+               <children>
+                  <VBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="438.0">
+                     <children>
+                        <Label styleClass="titulo-pagina" stylesheets="@../styles/exam.css" text="Provas" />
+                        <Label styleClass="subtitulo-pagina" stylesheets="@../styles/exam.css" text="Gerencie e visualize todas as provas cadastradas no sistema" />
+                     </children>
+                  </VBox>
+                  <Button mnemonicParsing="false" styleClass="btn-acao" stylesheets="@../styles/exam.css" text="Gerar nova prova" />
+               </children>
+               <padding>
+                  <Insets bottom="12.0" />
+               </padding>
+            </HBox>
+            <VBox prefHeight="98.0" prefWidth="582.0" spacing="10.0" styleClass="caixa-filtros" stylesheets="@../styles/exam.css">
+               <children>
+                  <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" spacing="8.0">
+                     <children>
+                        <ImageView fitHeight="17.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/lupa.png" />
+                           </image>
+                        </ImageView>
+                        <Label styleClass="titulo-filtro" stylesheets="@../styles/exam.css" text="Filtros" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" stylesheets="@../styles/exam.css">
+                     <children>
+                        <VBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="58.0" prefWidth="160.0" stylesheets="@../styles/exam.css">
+                           <children>
+                              <Label styleClass="label-campo-filtro" stylesheets="@../styles/exam.css" text="Título da prova" />
+                              <TextField styleClass="input-filtro" stylesheets="@../styles/exam.css" />
+                           </children>
+                        </VBox>
+                        <VBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="58.0" prefWidth="160.0" stylesheets="@../styles/exam.css">
+                           <children>
+                              <Label styleClass="label-campo-filtro" stylesheets="@../styles/exam.css" text="Disciplina" />
+                              <MenuButton minHeight="-Infinity" mnemonicParsing="false" prefHeight="26.0" prefWidth="160.0" styleClass="menu-btn" stylesheets="@../styles/exam.css" text="Todas as diciplinas">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" text="Action 1" />
+                                  <MenuItem mnemonicParsing="false" text="Action 2" />
+                                </items>
+                              </MenuButton>
+                           </children>
+                        </VBox>
+                        <VBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="58.0" prefWidth="160.0" stylesheets="@../styles/exam.css">
+                           <children>
+                              <Label styleClass="label-campo-filtro" stylesheets="@../styles/exam.css" text="Semestre" />
+                              <TextField styleClass="input-filtro" stylesheets="@../styles/exam.css" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets right="20.0" top="15.0" />
+         </padding>
+      </VBox>
+   </center>
+   
+</BorderPane>

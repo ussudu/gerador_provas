@@ -1,0 +1,109 @@
+.titulo-pagina {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #000000; 
+}
+
+.subtitulo-pagina {
+    -fx-font-size: 14px;
+    -fx-text-fill: #64748b;
+}
+
+.btn-acao {
+    -fx-background-color: #2563eb; /* Azul vibrante */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 6px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+}
+
+.btn-acao:hover {
+    -fx-background-color: #1d4ed8; /* Azul levemente mais escuro no hover */
+}
+
+
+.caixa-filtros {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e2e8f0; 
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px;
+
+}
+
+/* Título dentro da caixa ("Filtros") */
+.titulo-filtro {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #000000;
+}
+
+.label-campo-filtro {
+    -fx-font-size: 13px;
+    -fx-text-fill: #000000;
+}
+
+.input-filtro {
+    -fx-background-color: #f1f5f9; 
+    -fx-background-radius: 6px;
+    -fx-border-color: transparent;
+    -fx-padding: 4px 10px;
+    -fx-font-size: 12px;
+    -fx-text-fill: #334155;
+    -fx-prompt-text-fill: #94a3b8;
+}
+
+.input-filtro:focused {
+    -fx-border-color: #2563eb;
+    -fx-border-radius: 6px;
+    -fx-background-color: #ffffff;
+}
+
+.menu-btn
+{
+    -fx-background-color: #f1f5f9; 
+    -fx-background-radius: 6px;
+    -fx-border-color: transparent;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-prompt-text-fill: #000000;
+}
+
+
+.cartao-prova {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e2e8f0; /* Borda cinza clarinha */
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+/* O quadrado azul curvo atrás do ícone de documento */
+.fundo-icone-azul {
+    -fx-background-color: #2563eb; /* Azul vibrante */
+    -fx-background-radius: 8px;
+}
+
+/* As "pílulas" cinzas de informação (ex: 5 questões, Data) */
+.tag-cinza {
+    -fx-background-color: #f1f5f9; /* Fundo cinza bem claro */
+    -fx-text-fill: #475569; /* Texto cinza escuro para leitura */
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 4px 10px;
+    -fx-background-radius: 15px; /* Borda bem arredondada */
+}
+
+/* Botões de Ação (Lixeira e Olho) */
+.btn-acao-card {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 8px; /* Aumenta a área de clique para facilitar */
+    -fx-background-radius: 50%; /* Prepara o fundo para ficar redondo no hover */
+}
+
+/* Efeito ao passar o mouse por cima dos botões de ação */
+.btn-acao-card:hover {
+    -fx-background-color: #fee2e2; /* Fundo levemente avermelhado/cinza */
+}
