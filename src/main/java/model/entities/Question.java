@@ -8,7 +8,7 @@ public class Question {
     private QuestionType tipo; 
     private String enunciado;
     private String gabarito;
-    private Object disciplina; 
+    private Subject disciplina; 
     private String assunto;
     private int nivelDificuldade;
     private Teacher professor;
@@ -51,7 +51,7 @@ public class Question {
         return disciplina;
     }
 
-    public void setDisciplina(Object disciplina) {
+    public void setDisciplina(Subject disciplina) {
         this.disciplina = disciplina;
     }
 
