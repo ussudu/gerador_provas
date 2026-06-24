@@ -6,6 +6,7 @@ public class User {
     private String email;
     private String password;
     private UserRole role;
+    private boolean status;
 
     public int getIdUser() {
         return idUser;
@@ -42,4 +43,11 @@ public class User {
     public void setRole(UserRole role) {
         this.role = role;
     }
+    public boolean getStatus() {
+        return status;
+    }
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+    
 }

@@ -14,6 +14,7 @@ import model.entities.UserRole;
 public class TeacherDAO {
 
     private Connection conexao;
+    
     public TeacherDAO(Connection conexao) {
         this.conexao = conexao;
     }
@@ -33,7 +34,8 @@ public class TeacherDAO {
     }
 
     public List<Teacher> listar() {
-        String sql = "SELECT u.user_id, u.name, u.email, u.password, u.role, t.registration_number " +
+        // CORREÇÃO: u.status adicionado no SELECT
+        String sql = "SELECT u.user_id, u.name, u.email, u.password, u.role, u.status, t.registration_number " +
                      "FROM users u INNER JOIN teachers t ON u.user_id = t.user_id";
         
         List<Teacher> listaTeachers = new ArrayList<>();
@@ -48,10 +50,13 @@ public class TeacherDAO {
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
                 
-                // CORREÇÃO: Recuperando o papel (role) do banco e convertendo para Enum
+                // CORREÇÃO: Status resgatado do banco
+                user.setStatus(rs.getBoolean("status"));
+                
+                // CORREÇÃO: .toUpperCase() adicionado
                 String roleDoBanco = rs.getString("role");
                 if (roleDoBanco != null) {
-                    user.setRole(UserRole.valueOf(roleDoBanco)); 
+                    user.setRole(UserRole.valueOf(roleDoBanco.toUpperCase())); 
                 }
                 
                 Teacher teacher = new Teacher();
@@ -80,19 +85,6 @@ public class TeacherDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao atualizar professor: " + e.getMessage(), e);
-        }
-    }
-
-    public void deletar(int idUser) {
-        String sql = "DELETE FROM teachers WHERE user_id = ?";
-
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            
-            stmt.setInt(1, idUser);
-            stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao deletar professor: " + e.getMessage(), e);
         }
     }
 }

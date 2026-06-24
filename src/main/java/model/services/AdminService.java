@@ -1,9 +1,7 @@
 package model.services;
 
 import java.util.List;
-
 import model.DAO.AdminDAO;
-import model.DAO.UserDAO;
 import model.entities.Admin;
 import model.entities.User;
 import model.entities.UserRole;
@@ -11,11 +9,11 @@ import model.entities.UserRole;
 public class AdminService {
 
     private AdminDAO adminDAO;
-    private UserDAO userDAO;
+    private UserService userService; 
 
-    public AdminService(AdminDAO adminDAO, UserDAO userDAO) {
+    public AdminService(AdminDAO adminDAO, UserService userService) {
         this.adminDAO = adminDAO;
-        this.userDAO = userDAO;
+        this.userService = userService;
     }
 
     public void inserir(Admin admin) {
@@ -25,8 +23,8 @@ public class AdminService {
 
         admin.getUser().setRole(UserRole.ADMIN);
 
-        validarDadosUsuario(admin.getUser());
-        User usuarioSalvo = userDAO.inserir(admin.getUser());
+        User usuarioSalvo = userService.inserir(admin.getUser());
+        
         admin.setUser(usuarioSalvo);
         adminDAO.inserir(admin);
     }
@@ -40,31 +38,19 @@ public class AdminService {
             throw new IllegalArgumentException("Erro: ID de administrador inválido para atualização.");
         }
         
-        validarDadosUsuario(admin.getUser());
-        userDAO.atualizar(admin.getUser());
+        userService.atualizar(admin.getUser());
     }
 
-    public void deletar(int idAdmin) {
-        if (idAdmin <= 0) {
-            throw new IllegalArgumentException("Erro: O ID fornecido é inválido.");
+    public void desativar(Admin admin) {
+        if (admin == null || admin.getUser() == null || admin.getUser().getIdUser() <= 0) {
+            throw new IllegalArgumentException("Erro: Administrador inválido para desativação.");
         }
         
-        adminDAO.deletar(idAdmin);
-        userDAO.deletar(idAdmin);
-    }
+        User logado = UserService.getUsuarioLogado();
+        if (logado != null && logado.getIdUser() == admin.getUser().getIdUser()) {
+            throw new IllegalStateException("Você não pode desativar a sua própria conta.");
+        }
 
-    private void validarDadosUsuario(User user) {
-        if (user == null) {
-            throw new IllegalArgumentException("Erro: Os dados do usuário não podem estar ausentes.");
-        }
-        if (user.getName() == null || user.getName().trim().isEmpty()) {
-            throw new IllegalArgumentException("Erro: O nome não pode estar vazio.");
-        }
-        if (user.getEmail() == null || user.getEmail().trim().isEmpty()) {
-            throw new IllegalArgumentException("Erro: O email não pode estar vazio.");
-        }
-        if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
-            throw new IllegalArgumentException("Erro: A palavra-passe não pode estar vazia.");
-        }
+        userService.desativar(admin.getUser().getIdUser());
     }
 }

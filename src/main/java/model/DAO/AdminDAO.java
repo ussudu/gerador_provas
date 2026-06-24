@@ -32,7 +32,8 @@ public class AdminDAO {
     }
 
     public List<Admin> listar() {
-        String sql = "SELECT u.user_id, u.name, u.email, u.password, u.role " +
+        // CORREÇÃO: u.status adicionado no SELECT
+        String sql = "SELECT u.user_id, u.name, u.email, u.password, u.role, u.status " +
                      "FROM users u INNER JOIN admins a ON u.user_id = a.user_id";
         
         List<Admin> listaAdmins = new ArrayList<>();
@@ -47,9 +48,13 @@ public class AdminDAO {
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
                 
+                // CORREÇÃO: Status resgatado do banco
+                user.setStatus(rs.getBoolean("status"));
+                
+                // CORREÇÃO: .toUpperCase() adicionado
                 String roleDoBanco = rs.getString("role");
                 if (roleDoBanco != null) {
-                    user.setRole(UserRole.valueOf(roleDoBanco)); 
+                    user.setRole(UserRole.valueOf(roleDoBanco.toUpperCase())); 
                 }
                 
                 Admin admin = new Admin();
@@ -62,18 +67,5 @@ public class AdminDAO {
         }
         
         return listaAdmins;
-    }
-
-    public void deletar(int idUser) {
-        String sql = "DELETE FROM admins WHERE user_id = ?";
-
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            
-            stmt.setInt(1, idUser);
-            stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao deletar administrador: " + e.getMessage(), e);
-        }
     }
 }

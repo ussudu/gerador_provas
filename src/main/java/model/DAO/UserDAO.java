@@ -20,7 +20,7 @@ public class UserDAO {
     }
 
     public User inserir(User user) {
-        String sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO users (name, email, password, role, status) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             
@@ -28,6 +28,7 @@ public class UserDAO {
             stmt.setString(2, user.getEmail());
             stmt.setString(3, user.getPassword());
             stmt.setString(4, user.getRole().name()); 
+            stmt.setBoolean(5, true);
 
             int linhasAfetadas = stmt.executeUpdate();
 
@@ -47,7 +48,7 @@ public class UserDAO {
 
     public List<User> listar() {
         List<User> usuarios = new ArrayList<>();
-        String sql = "SELECT * FROM users";
+        String sql = "SELECT * FROM users ORDER BY user_id";
 
         try (PreparedStatement stmt = conexao.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
@@ -57,12 +58,13 @@ public class UserDAO {
                 user.setIdUser(rs.getInt("user_id"));
                 user.setName(rs.getString("name"));
                 user.setEmail(rs.getString("email"));
-                
                 user.setPassword(rs.getString("password"));
-
+                user.setStatus(rs.getBoolean("status"));
+                
+                // CORREÇÃO: .toUpperCase() adicionado
                 String roleDoBanco = rs.getString("role");
                 if (roleDoBanco != null) {
-                    user.setRole(UserRole.valueOf(roleDoBanco)); 
+                    user.setRole(UserRole.valueOf(roleDoBanco.toUpperCase()));
                 }
                 
                 usuarios.add(user);
@@ -89,16 +91,27 @@ public class UserDAO {
         }
     }
 
-    public void deletar(int idUser) {
-        String sql = "DELETE FROM users WHERE user_id = ?";
-
+    public void desativar(int idUser) {
+        // CORREÇÃO: Tabela "users" e coluna "user_id"
+        String sql = "UPDATE users SET status = false WHERE user_id = ?";
+        
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            
             stmt.setInt(1, idUser);
             stmt.executeUpdate();
-
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao deletar usuário: " + e.getMessage(), e);
+            throw new RuntimeException("Erro ao desativar usuário: " + e.getMessage(), e);
+        }
+    }
+    
+    public void ativar(int idUser) {
+        // CORREÇÃO: Tabela "users" e coluna "user_id"
+        String sql = "UPDATE users SET status = true WHERE user_id = ?";
+        
+        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.setInt(1, idUser);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao ativar usuário: " + e.getMessage(), e);
         }
     }
 
@@ -121,8 +134,9 @@ public class UserDAO {
                     
                     String roleDoBanco = rs.getString("role");
                     if (roleDoBanco != null) {
-                        user.setRole(UserRole.valueOf(roleDoBanco)); 
+                        user.setRole(UserRole.valueOf(roleDoBanco.toUpperCase())); 
                     }
+                    user.setStatus(rs.getBoolean("status"));
                 }
             }
         } catch (SQLException e) {

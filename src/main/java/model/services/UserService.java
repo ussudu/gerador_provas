@@ -32,28 +32,26 @@ public class UserService {
         userDAO.atualizar(user);
     }
 
-    public void deletar(int idUser) {
+    public void desativar(int idUser) {
         if (idUser <= 0) {
             throw new IllegalArgumentException("Erro: O ID fornecido é inválido.");
         }
-        userDAO.deletar(idUser);
+        userDAO.desativar(idUser);
     }
 
-    public User login(String email, String password) {
-        if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
-            throw new IllegalArgumentException("Erro: E-mail e senha são obrigatórios para o login.");
-        }
-
-        User user = userDAO.buscarPorEmailESenha(email, password);
-
+    public User fazerLogin(String email, String senha) {
+        User user = userDAO.buscarPorEmailESenha(email, senha);
         if (user == null) {
-            throw new IllegalArgumentException("Erro: E-mail ou palavra-passe incorretos.");
+            throw new RuntimeException("E-mail ou senha incorretos.");
         }
 
+        if (!user.getStatus()) {
+            throw new RuntimeException("Sua conta está desativada. Procure a administração.");
+        }
         usuarioLogado = user;
-
         return user;
     }
+
 
     public static User getUsuarioLogado() {
         return usuarioLogado;
@@ -63,7 +61,7 @@ public class UserService {
         usuarioLogado = null;
     }
 
-    public void validarDadosUsuario(User user) {
+    private void validarDadosUsuario(User user) {
         if (user == null) {
             throw new IllegalArgumentException("Erro: Os dados do usuário não podem estar ausentes.");
         }

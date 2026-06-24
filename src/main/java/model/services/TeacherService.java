@@ -1,7 +1,6 @@
 package model.services;
 
 import java.util.List;
-
 import model.DAO.TeacherDAO;
 import model.entities.Teacher;
 import model.entities.User;
@@ -42,16 +41,16 @@ public class TeacherService {
         if (teacher.getResgistration_number() == null || teacher.getResgistration_number().trim().isEmpty()) {
             throw new IllegalArgumentException("Erro: A matrícula do professor não pode ser apagada.");
         }
+        
         userService.atualizar(teacher.getUser());
         teacherDAO.atualizar(teacher);
     }
 
-    public void deletar(int idTeacher) {
-        if (idTeacher <= 0) {
-            throw new IllegalArgumentException("Erro: O ID fornecido é inválido.");
+    public void desativar(Teacher teacher) {
+        if (teacher == null || teacher.getUser() == null || teacher.getUser().getIdUser() <= 0) {
+            throw new IllegalArgumentException("Erro: Professor inválido para desativação.");
         }
         
-        teacherDAO.deletar(idTeacher);
-        userService.deletar(idTeacher);
+        userService.desativar(teacher.getUser().getIdUser());
     }
 }

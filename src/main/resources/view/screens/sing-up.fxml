@@ -18,7 +18,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Label styleClass="label-campo" stylesheets="@../styles/style.css" text="Nome" />
-                  <TextField prefHeight="14.0" prefWidth="268.0" promptText="fulano da silva" styleClass="campo-texto" stylesheets="@../styles/style.css" />
+                  <TextField prefHeight="14.0" prefWidth="268.0" promptText="Nome completo" styleClass="campo-texto" stylesheets="@../styles/style.css" />
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0">
@@ -36,7 +36,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Label styleClass="label-campo" stylesheets="@../styles/style.css" text="Senha" />
-                  <TextField prefHeight="14.0" prefWidth="268.0" promptText="********" styleClass="campo-texto" stylesheets="@../styles/style.css" />
+                  <TextField prefHeight="14.0" prefWidth="268.0" promptText="Mínimo 8 caracteres" styleClass="campo-texto" stylesheets="@../styles/style.css" />
                </children>
             </VBox>
             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="botao-primario" stylesheets="@../styles/style.css" text="Salvar" />
