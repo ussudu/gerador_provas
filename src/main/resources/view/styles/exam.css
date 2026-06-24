@@ -85,30 +85,22 @@
     -fx-background-radius: 8px;
 }
 
-/* As "pílulas" cinzas de informação (ex: 5 questões, Data) */
-.tag-cinza {
-    -fx-background-color: #f1f5f9; /* Fundo cinza bem claro */
-    -fx-text-fill: #475569; /* Texto cinza escuro para leitura */
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
-    -fx-padding: 4px 10px;
-    -fx-background-radius: 15px; /* Borda bem arredondada */
-}
-
-/* Botões de Ação (Lixeira e Olho) */
 .btn-acao-card {
     -fx-background-color: transparent;
     -fx-cursor: hand;
-    -fx-padding: 8px; /* Aumenta a área de clique para facilitar */
-    -fx-background-radius: 50%; /* Prepara o fundo para ficar redondo no hover */
+    -fx-padding: 8px;
+    -fx-background-radius: 50%; 
 }
 
-/* Efeito ao passar o mouse por cima dos botões de ação */
 .btn-acao-card:hover {
-    -fx-background-color: #fee2e2; /* Fundo levemente avermelhado/cinza */
+    -fx-background-color: #fee2e2; 
 }
 
 .label-form {
     -fx-font-size: 14px;
     -fx-text-fill: #000000;
+}
+.tabela-linha {
+    -fx-border-color: #e2e8f0;        
+    -fx-border-width: 1px 0px 0px 0px;
 }

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="700.0" styleClass="container" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+   
+   <top>
+       <fx:include source="header.fxml" /> 
+   </top>
+   
+   <left>
+       <VBox>
+           <BorderPane.margin>
+               <Insets left="15.0" top="20.0" />
+           </BorderPane.margin>
+           <fx:include source="sidebar.fxml" />
+       </VBox>
+   </left>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="67.0" prefWidth="555.0">
+               <children>
+                  <VBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="54.0" prefWidth="462.0">
+                     <children>
+                        <Label styleClass="titulo-pagina" stylesheets="@../styles/exam.css" text="Usuários" />
+                        <Label styleClass="subtitulo-pagina" stylesheets="@../styles/exam.css" text="Gerencie os usuários do sistema" />
+                     </children>
+                  </VBox>
+                  <Button mnemonicParsing="false" styleClass="btn-acao" stylesheets="@../styles/exam.css" text="Novo usuário" />
+               </children>
+               <padding>
+                  <Insets bottom="12.0" />
+               </padding>
+            </HBox>
+            <VBox prefHeight="98.0" prefWidth="582.0" spacing="10.0" styleClass="caixa-filtros" stylesheets="@../styles/exam.css">
+               <children>
+                  <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="200.0" spacing="8.0">
+                     <children>
+                        <ImageView fitHeight="20.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../icons/user.png" />
+                           </image>
+                        </ImageView>
+                        <Label styleClass="titulo-filtro" stylesheets="@../styles/exam.css" text="Lista de usuários" />
+                     </children>
+                  </HBox>
+
+                  <VBox spacing="5.0" styleClass="tabela-container" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+                     <children>
+                        
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" styleClass="tabela-header">
+                           <children>
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" styleClass="label-form" text="Nome" />
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="170.0" styleClass="label-form" text="Email" />
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="80.0" styleClass="label-form" text="Tipo" />
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" styleClass="label-form" text="Status" />
+                              <Label alignment="CENTER" prefWidth="80.0" styleClass="label-form" text="Ações" />
+                           </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </HBox>
+
+                        <HBox alignment="CENTER_LEFT" prefHeight="60.0" styleClass="tabela-linha">
+                           <children>
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" styleClass="label-form" text="Administrador" />
+                              <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="170.0" styleClass="label-form" text="admin@sistema.com" />
+                              
+                              <HBox alignment="CENTER_LEFT" prefWidth="120.0">
+                                 <children>
+                                    <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="80.0" styleClass="label-form" text="ADMIN" />
+                                 </children>
+                              </HBox>
+                              
+                              <HBox alignment="CENTER_LEFT" prefWidth="100.0">
+                                 <children>
+                                    <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" styleClass="label-form" text="Ativo" />
+                                 </children>
+                              </HBox>
+                              
+                              <HBox alignment="CENTER" prefWidth="80.0" spacing="1.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" styleClass="btn-acao-card">
+                                       <graphic>
+                                          <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../icons/editar.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                    <Button mnemonicParsing="false" styleClass="btn-acao-card">
+                                       <graphic>
+                                          <ImageView fitHeight="16.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../icons/lixo.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </HBox>
+
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets right="20.0" top="15.0" />
+         </padding>
+      </VBox>
+   </center>
+   
+</BorderPane>
