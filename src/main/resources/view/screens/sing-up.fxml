@@ -12,7 +12,7 @@
         <fx:include source="header.fxml" /> 
     </top>
    <center>
-      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="150.0" prefWidth="350.0" styleClass="container-login" stylesheets="@../styles/style.css" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" styleClass="container-login" stylesheets="@../styles/style.css" BorderPane.alignment="TOP_CENTER">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" styleClass="titulo-login" stylesheets="@../styles/style.css" text="Cadastro" />
             <VBox prefHeight="200.0" prefWidth="100.0">
@@ -42,7 +42,7 @@
             <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="botao-primario" stylesheets="@../styles/style.css" text="Salvar" />
          </children>
          <BorderPane.margin>
-            <Insets bottom="10.0" top="10.0" />
+            <Insets top="25.0" />
          </BorderPane.margin>
       </VBox>
    </center>

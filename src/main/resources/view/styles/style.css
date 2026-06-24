@@ -4,8 +4,8 @@
 
 .container-login
 {
-    -fx-padding: 15px;
-    -fx-spacing: 10px;
+    -fx-padding: 30px;
+    -fx-spacing: 20px;
     -fx-border-radius: 12px;
     -fx-border-color:#e2e4e5;
 }
