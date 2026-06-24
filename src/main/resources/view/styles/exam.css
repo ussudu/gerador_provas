@@ -107,3 +107,8 @@
 .btn-acao-card:hover {
     -fx-background-color: #fee2e2; /* Fundo levemente avermelhado/cinza */
 }
+
+.label-form {
+    -fx-font-size: 14px;
+    -fx-text-fill: #000000;
+}
