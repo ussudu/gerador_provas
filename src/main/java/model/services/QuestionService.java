@@ -4,10 +4,13 @@ import model.DAO.QuestionDAO;
 import model.entities.DiscursiveQuestion;
 import model.entities.MultipleChoiceQuestion;
 import model.entities.Question;
+import model.entities.Difficulty;
 import model.exceptions.EntidadeNaoEncontradaException;
 import model.exceptions.RegraNegocioException;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class QuestionService {
@@ -19,7 +22,7 @@ public class QuestionService {
     }
 
     public void insert(Question question) {
-        validarDados(question);
+        validate(question);
 
         try {
             questionDAO.insert(question);
@@ -33,7 +36,7 @@ public class QuestionService {
             throw new RegraNegocioException("ID da questão inválido para atualização.");
         }
         
-        validarDados(question);
+        validate(question);
 
         try {
             questionDAO.update(question);
@@ -108,7 +111,7 @@ public class QuestionService {
         }
 
         try {
-            model.entities.Difficulty.valueOf(difficulty.toUpperCase());
+            Difficulty.valueOf(difficulty.toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new RegraNegocioException("Nível de dificuldade inválido. Selecione um nível válido na lista.");
         }
@@ -120,7 +123,57 @@ public class QuestionService {
         }
     }
 
-    private void validarDados(Question question) {
+    public List<Question> findByExam(int examId) {
+        if (examId <= 0) {
+            throw new RegraNegocioException("ID da prova inválido para busca de questões.");
+        }
+        try {
+            return questionDAO.findByExam(examId);
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro interno ao buscar as questões da prova: " + e.getMessage());
+        }
+    }
+
+    public List<Question> findRandomQuestions(int subjectId, String difficulty, int amount) {
+        if (subjectId <= 0) {
+            throw new RegraNegocioException("Disciplina inválida para o sorteio de questões.");
+        }
+        if (amount <= 0 || amount > 50) {
+            throw new RegraNegocioException("A quantidade de questões sorteadas deve ser entre 1 e 50.");
+        }
+        try {
+            Difficulty.valueOf(difficulty.toUpperCase());
+        } catch (IllegalArgumentException | NullPointerException e) {
+            throw new RegraNegocioException("Nível de dificuldade inválido para o sorteio.");
+        }
+
+        try {
+            List<Question> questions = questionDAO.findRandomByCriteria(subjectId, difficulty.toUpperCase(), amount);
+            if (questions.size() < amount) {
+                throw new RegraNegocioException("Não há questões suficientes no banco. Solicitado: " + amount + ", Encontrado: " + questions.size());
+            }
+            return questions;
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro interno ao sortear questões: " + e.getMessage());
+        }
+    }
+
+    public List<Question> generateMixedExam(int subjectId, int easyAmount, int mediumAmount, int hardAmount) {
+        List<Question> fullExam = new ArrayList<>();
+
+        if (easyAmount > 0) fullExam.addAll(findRandomQuestions(subjectId, "EASY", easyAmount));
+        if (mediumAmount > 0) fullExam.addAll(findRandomQuestions(subjectId, "MEDIUM", mediumAmount));
+        if (hardAmount > 0) fullExam.addAll(findRandomQuestions(subjectId, "HARD", hardAmount));
+
+        if (fullExam.isEmpty()) {
+            throw new RegraNegocioException("Nenhuma questão foi solicitada para gerar a prova.");
+        }
+
+        Collections.shuffle(fullExam); // Embaralha as questões para a prova não ficar previsível
+        return fullExam;
+    }
+
+    private void validate(Question question) {
         if (question == null) {
             throw new RegraNegocioException("A questão não pode ser nula.");
         }

@@ -1,56 +1,66 @@
 package model.services;
 
 import java.util.List;
+
 import model.DAO.TeacherDAO;
 import model.entities.Teacher;
-import model.entities.User;
-import model.entities.UserRole;
+import model.exceptions.EntidadeNaoEncontradaException;
+import model.exceptions.RegraNegocioException;
 
 public class TeacherService {
 
     private TeacherDAO teacherDAO;
-    private UserService userService; 
+    private UserService userService;
 
     public TeacherService(TeacherDAO teacherDAO, UserService userService) {
         this.teacherDAO = teacherDAO;
         this.userService = userService;
     }
 
-    public void inserir(Teacher teacher) {
-        if (teacher.getResgistration_number() == null || teacher.getResgistration_number().trim().isEmpty()) {
-            throw new IllegalArgumentException("Erro: A matrícula do professor é obrigatória.");
+    public void insert(Teacher teacher) {
+        validate(teacher);
+        if (teacher.getUser().getIdUser() <= 0) {
+            userService.insert(teacher.getUser());
         }
 
-        teacher.getUser().setRole(UserRole.TEACHER);
-
-        User usuarioSalvo = userService.inserir(teacher.getUser());
-
-        teacher.setUser(usuarioSalvo);
-        teacherDAO.inserir(teacher);
+        teacherDAO.insert(teacher);
     }
 
-    public List<Teacher> listar() {
-        return teacherDAO.listar();
-    }
-
-    public void atualizar(Teacher teacher) {
-        if (teacher.getUser() == null || teacher.getUser().getIdUser() <= 0) { 
-            throw new IllegalArgumentException("Erro: ID de professor inválido para atualização.");
-        }
-        
-        if (teacher.getResgistration_number() == null || teacher.getResgistration_number().trim().isEmpty()) {
-            throw new IllegalArgumentException("Erro: A matrícula do professor não pode ser apagada.");
-        }
-        
-        userService.atualizar(teacher.getUser());
-        teacherDAO.atualizar(teacher);
-    }
-
-    public void desativar(Teacher teacher) {
+    public void update(Teacher teacher) {
         if (teacher == null || teacher.getUser() == null || teacher.getUser().getIdUser() <= 0) {
-            throw new IllegalArgumentException("Erro: Professor inválido para desativação.");
+            throw new RegraNegocioException("ID do professor inválido para atualização.");
         }
-        
-        userService.desativar(teacher.getUser().getIdUser());
+        validate(teacher);
+
+        teacherDAO.update(teacher);
+        userService.update(teacher.getUser());
+    }
+
+    public List<Teacher> findAll() {
+        return teacherDAO.findAll();
+    }
+
+    public Teacher findById(int idTeacher) {
+        if (idTeacher <= 0) {
+            throw new RegraNegocioException("O ID do professor deve ser maior que zero.");
+        }
+
+        Teacher teacher = teacherDAO.findById(idTeacher);
+        if (teacher == null) {
+            throw new EntidadeNaoEncontradaException("Nenhum professor encontrado com o ID informado.");
+        }
+        return teacher;
+    }
+
+    private void validate(Teacher teacher) {
+        if (teacher == null) {
+            throw new RegraNegocioException("O professor não pode ser nulo.");
+        }
+        if (teacher.getUser() == null) {
+            throw new RegraNegocioException("Os dados de usuário (nome, e-mail) do professor são obrigatórios.");
+        }
+        if (teacher.getResgistration_number() == null || teacher.getResgistration_number().trim().isEmpty()) {
+            throw new RegraNegocioException("A matrícula (Registration Number) do professor é obrigatória.");
+        }
     }
 }
