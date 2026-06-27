@@ -6,6 +6,7 @@ import model.DAO.SubjectDAO;
 import model.entities.Subject;
 
 public class SubjectService {
+    
     private SubjectDAO subjectDAO;
 
     public SubjectService() {
@@ -17,9 +18,14 @@ public class SubjectService {
             throw new IllegalArgumentException("Erro: O nome da disciplina não pode estar vazio.");
         }
         
-        if (subject.getTeacherId() == null || subject.getTeacherId() <= 0) {
-            throw new IllegalArgumentException("Erro: É obrigatório associar um Professor válido à disciplina.");
+        if (subject.getTeacher() == null) {
+            throw new IllegalArgumentException("Erro: É obrigatório associar um Professor à disciplina.");
         }
+        
+        if (subject.getTeacher().getUser().getIdUser() <= 0) { 
+            throw new IllegalArgumentException("Erro: O Professor associado é inválido."); 
+        }
+
         subjectDAO.inserir(subject);
     }
 
@@ -28,7 +34,7 @@ public class SubjectService {
     }
 
     public void atualizar(Subject subject) {
-        if (subject.getIdSubject() == null || subject.getIdSubject() <= 0) {
+        if (subject.getIdSubject() <= 0) {
             throw new IllegalArgumentException("Erro: ID da disciplina inválido para atualização.");
         }
 

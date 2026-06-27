@@ -2,15 +2,15 @@ package model.entities;
 
 public class Subject {
     
-    private Integer idSubject;
+    private int idSubject;
     private String name;
-    private Integer teacherId; 
+    private Teacher teacher; 
 
-    public Integer getIdSubject() {
+    public int getIdSubject() {
         return idSubject;
     }
 
-    public void setIdSubject(Integer idSubject) {
+    public void setIdSubject(int idSubject) {
         this.idSubject = idSubject;
     }
 
@@ -22,12 +22,12 @@ public class Subject {
         this.name = name;
     }
 
-    public Integer getTeacherId() {
-        return teacherId;
+    public Teacher getTeacher() {
+        return teacher;
     }
 
-    public void setTeacherId(Integer teacherId) {
-        this.teacherId = teacherId;
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
     }
 
 }

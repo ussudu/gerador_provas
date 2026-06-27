@@ -1,112 +1,74 @@
 package model.entities;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Exam {
 
-    private int codigo;
-    private String titulo;
-    private Subject disciplina;
-    private Question[] questoes = new Question[0];
-    private LocalDate dataDeCriacao;
-    private String semestre;
-    private Teacher professor;
+    private int examId;
+    private Subject subject;
+    private List<Question> questions = new ArrayList<>();
+    private LocalDate creationDate;
+    private String semester;
+    private Teacher teacher;
 
-    public int getCodigo() {
-        return codigo;
+    public int getExamId() {
+        return examId;
     }
 
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
+    public void setExamId(int examId) {
+        this.examId = examId;
     }
 
-    public String getTitulo() {
-        return titulo;
+
+    public Subject getSubject() {
+        return subject;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
-    public Subject getDisciplina() {
-        return disciplina;
+    public LocalDate getCreationDate() {
+        return creationDate;
     }
 
-    public void setDisciplina(Subject disciplina) {
-        this.disciplina = disciplina;
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
     }
 
-    public Question[] getQuestoes() {
-        return questoes;
+    public String getSemester() {
+        return semester;
     }
 
-    public void setQuestoes(Question[] questoes) {
-        this.questoes = questoes;
+    public void setSemester(String semester) {
+        this.semester = semester;
     }
 
-    public LocalDate getDataDeCriacao() {
-        return dataDeCriacao;
+    public Teacher getTeacher() {
+        return teacher;
     }
 
-    public void setDataDeCriacao(LocalDate dataDeCriacao) {
-        this.dataDeCriacao = dataDeCriacao;
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
     }
 
-    public String getSemestre() {
-        return semestre;
+    public List<Question> getQuestions() {
+        return questions;
     }
 
-    public void setSemestre(String semestre) {
-        this.semestre = semestre;
-    }
-
-    public Teacher getProfessor() {
-        return professor;
-    }
-
-    public void setProfessor(Teacher professor) {
-        this.professor = professor;
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
     }
 
     public void addQuestao(Question questao) {
-
-        Question[] questoesAtualizadas = new Question[questoes.length + 1];
-
-        for (int i = 0; i < questoes.length; i++) {
-            questoesAtualizadas[i] = questoes[i];
+        if (questao != null && !questions.contains(questao)) {
+            this.questions.add(questao);
         }
-
-        questoesAtualizadas[questoes.length] = questao;
-
-        questoes = questoesAtualizadas;
     }
 
     public void removerQuestao(Question questao) {
-
-        int posicao = -1;
-
-        for (int i = 0; i < questoes.length; i++) {
-            if (questoes[i] == questao) {
-                posicao = i;
-                break;
-            }
-        }
-
-        if (posicao != -1) {
-
-            Question[] questoesAtualizadas = new Question[questoes.length - 1];
-
-            int j = 0;
-
-            for (int i = 0; i < questoes.length; i++) {
-
-                if (i != posicao) {
-                    questoesAtualizadas[j] = questoes[i];
-                    j++;
-                }
-            }
-
-            questoes = questoesAtualizadas;
-        }
+        this.questions.remove(questao);
     }
 }

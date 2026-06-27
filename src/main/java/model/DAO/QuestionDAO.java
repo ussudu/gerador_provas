@@ -1,132 +1,188 @@
 package model.DAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import model.entities.*;
+import model.factory.QuestionFactory;
+import java.sql.*;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-
-import model.entities.Alternative;
-import model.entities.Question;
-import model.entities.QuestionType;
 
 public class QuestionDAO {
+    private Connection conn;
 
-    private Connection conexao;
-
-    public QuestionDAO(Connection conexao) {
-        this.conexao = conexao;
+    public QuestionDAO(Connection conn) {
+        this.conn = conn;
     }
 
-    public Question inserir(Question question) {
-        String sql = "INSERT INTO question (tipo, enunciado, gabarito, assunto, nivel_dificuldade) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            stmt.setString(1, question.getTipo().name());
-            stmt.setString(2, question.getEnunciado());
-            stmt.setString(3, question.getGabarito());
-            stmt.setString(4, question.getAssunto());
-            stmt.setInt(5, question.getNivelDificuldade());
+    public void insert(Question question) throws SQLException {
+        String sql = "INSERT INTO question (question_type, statement, answer_key, topic, subject_id, difficulty, alternatives, expected_lines) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-            int linhasAfetadas = stmt.executeUpdate();
-
-            if (linhasAfetadas > 0) {
-                try (ResultSet rs = stmt.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        question.setCodigo(rs.getInt(1));
-                    }
+        try (PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            
+            setStatementParams(st, question);
+            st.executeUpdate();
+            try (ResultSet rs = st.getGeneratedKeys()) {
+                if (rs.next()) {
+                    question.setQuestionId(rs.getInt(1));
                 }
             }
-            return question;
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir questão no banco: " + e.getMessage(), e);
         }
     }
 
-    public List<Question> listar() {
-        String sql = "SELECT q.*, a.id AS alt_id, a.texto AS alt_texto, a.correta " +
-                     "FROM question q " +
-                     "LEFT JOIN alternativas a ON q.codigo = a.question_id";
+    public void update(Question question) throws SQLException {
+        String sql = "UPDATE question SET question_type = ?, statement = ?, answer_key = ?, topic = ?, "
+                   + "subject_id = ?, difficulty = ?, alternatives = ?, expected_lines = ? "
+                   + "WHERE question_id = ?";
 
-        Map<Integer, Question> mapQuestoes = new LinkedHashMap<>();
+        try (PreparedStatement st = conn.prepareStatement(sql)) {
+            
+            setStatementParams(st, question);
+            st.setInt(9, question.getQuestionId()); // Preenche a condição WHERE
+            
+            st.executeUpdate();
+        }
+    }
 
-        try (PreparedStatement stmt = conexao.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+    public void delete(int id) throws SQLException {
+        String sql = "DELETE FROM question WHERE question_id = ?";
 
+        try (PreparedStatement st = conn.prepareStatement(sql)) {
+            st.setInt(1, id);
+            st.executeUpdate();
+        }
+    }
+
+    public List<Question> findAll() throws SQLException {
+        String sql = "SELECT * FROM question";
+        List<Question> list = new ArrayList<>();
+
+        try (PreparedStatement st = conn.prepareStatement(sql);
+             ResultSet rs = st.executeQuery()) {
+            
             while (rs.next()) {
-                int codigoQuestao = rs.getInt("codigo");
-                Question question = mapQuestoes.get(codigoQuestao);
+                list.add(instantiateQuestion(rs));
+            }
+        }
+        return list;
+    }
 
-                if (question == null) {
-                    question = new Question();
-                    question.setCodigo(codigoQuestao);
-                    
-                    String tipoDoBanco = rs.getString("tipo");
-                    if (tipoDoBanco != null) {
-                        question.setTipo(QuestionType.valueOf(tipoDoBanco));
-                    }
-                    
-                    question.setEnunciado(rs.getString("enunciado"));
-                    question.setGabarito(rs.getString("gabarito"));
-                    question.setAssunto(rs.getString("assunto"));
-                    question.setNivelDificuldade(rs.getInt("nivel_dificuldade"));
-                    
-                    mapQuestoes.put(codigoQuestao, question);
-                }
-
-                int idAlternativa = rs.getInt("alt_id");
-                if (idAlternativa > 0) {
-                    Alternative alt = new Alternative();
-                    alt.setId(idAlternativa);
-                    alt.setTexto(rs.getString("alt_texto"));
-                    alt.setCorreta(rs.getBoolean("correta"));
-                    
-                    question.getAlternativas().add(alt);
+    public Question findById(int id) throws SQLException {
+        String sql = "SELECT * FROM question WHERE question_id = ?";
+        
+        try (PreparedStatement st = conn.prepareStatement(sql)) {
+            st.setInt(1, id);
+            
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    return instantiateQuestion(rs);
                 }
             }
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar questões: " + e.getMessage(), e);
         }
-
-        // Converte os valores do Map de volta para uma List padrão
-        return new ArrayList<>(mapQuestoes.values());
+        return null;
     }
 
-    public void atualizar(Question question) {
-        String sql = "UPDATE question SET tipo = ?, enunciado = ?, gabarito = ?, assunto = ?, nivel_dificuldade = ? WHERE codigo = ?";
+    public List<Question> findBySubject(int subjectId) throws SQLException {
+        String sql = "SELECT * FROM question WHERE subject_id = ?";
+        List<Question> list = new ArrayList<>();
 
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (PreparedStatement st = conn.prepareStatement(sql)) {
+            st.setInt(1, subjectId);
+            
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    list.add(instantiateQuestion(rs));
+                }
+            }
+        }
+        return list;
+    }
 
-            stmt.setString(1, question.getTipo().name());
-            stmt.setString(2, question.getEnunciado());
-            stmt.setString(3, question.getGabarito());
-            stmt.setString(4, question.getAssunto());
-            stmt.setInt(5, question.getNivelDificuldade());
-            stmt.setInt(6, question.getCodigo());
+    public List<Question> findByTopic(String topic) throws SQLException {
+        String sql = "SELECT * FROM question WHERE topic = ?";
+        List<Question> list = new ArrayList<>();
 
-            stmt.executeUpdate();
+        try (PreparedStatement st = conn.prepareStatement(sql)) {
+            st.setString(1, topic);
+            
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    list.add(instantiateQuestion(rs));
+                }
+            }
+        }
+        return list;
+    }
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar questão: " + e.getMessage(), e);
+    public List<Question> findByDifficulty(String difficulty) throws SQLException {
+        String sql = "SELECT * FROM question WHERE difficulty = ?";
+        List<Question> list = new ArrayList<>();
+
+        try (PreparedStatement st = conn.prepareStatement(sql)) {
+            st.setString(1, difficulty);
+            
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    list.add(instantiateQuestion(rs));
+                }
+            }
+        }
+        return list;
+    }
+
+    private void setStatementParams(PreparedStatement st, Question question) throws SQLException {
+        String typeFlag = (question instanceof MultipleChoiceQuestion) ? "MULTIPLE_CHOICE" : "DISCURSIVE";
+        
+        st.setString(1, typeFlag);
+        st.setString(2, question.getStatement());
+        st.setString(3, question.getAnswerKey());
+        st.setString(4, question.getTopic());
+        st.setInt(5, question.getSubject().getIdSubject());
+        st.setString(6, question.getDifficulty().name());
+
+        //Lógica de Polimorfismo
+        if (question instanceof MultipleChoiceQuestion) {
+            MultipleChoiceQuestion mcq = (MultipleChoiceQuestion) question;
+            String alternativesStr = String.join(";;", mcq.getAlternatives());
+            
+            st.setString(7, alternativesStr);
+            st.setNull(8, Types.INTEGER);
+            
+        } else if (question instanceof DiscursiveQuestion) {
+            DiscursiveQuestion dq = (DiscursiveQuestion) question;
+            
+            st.setNull(7, Types.VARCHAR);
+            st.setInt(8, dq.getExpectedLines());
         }
     }
 
-    public void excluir(int codigo) {
-        String sql = "DELETE FROM question WHERE codigo = ?";
+    private Question instantiateQuestion(ResultSet rs) throws SQLException {
+        String type = rs.getString("question_type");
+        
+        //A FACTORY ASSUME A CRIAÇÃO
+        Question question = QuestionFactory.createQuestion(type);
 
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        question.setQuestionId(rs.getInt("question_id"));
+        question.setStatement(rs.getString("statement"));
+        question.setAnswerKey(rs.getString("answer_key"));
+        question.setTopic(rs.getString("topic"));
+        question.setDifficulty(Difficulty.valueOf(rs.getString("difficulty"))); 
 
-            stmt.setInt(1, codigo);
-            stmt.executeUpdate();
+        Subject subject = new Subject();
+        subject.setIdSubject(rs.getInt("subject_id"));
+        question.setSubject(subject);
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao excluir questão: " + e.getMessage(), e);
+        //Preenchimento das colunas específicas usando polimorfismo
+        if (question instanceof MultipleChoiceQuestion) {
+            String alts = rs.getString("alternatives");
+            if (alts != null && !alts.isEmpty()) {
+                ((MultipleChoiceQuestion) question).setAlternatives(Arrays.asList(alts.split(";;")));
+            }
+        } else if (question instanceof DiscursiveQuestion) {
+            ((DiscursiveQuestion) question).setExpectedLines(rs.getInt("expected_lines"));
         }
-    }
+        
+        return question;
+    } 
 }

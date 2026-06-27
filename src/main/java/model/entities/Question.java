@@ -1,87 +1,69 @@
 package model.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+public abstract class Question {
+    private int questionId;
+    private String statement;
+    private String answerKey;
+    private Subject subject; 
+    private String topic;
+    private Difficulty difficulty;
+    private Teacher teacher;
 
-public class Question {
-    private int codigo;
-    private QuestionType tipo; 
-    private String enunciado;
-    private String gabarito;
-    private Subject disciplina; 
-    private String assunto;
-    private int nivelDificuldade;
-    private Teacher professor;
-    private List<Alternative> alternativas = new ArrayList<>(); 
+    public abstract String getType();
 
-    // Getters e Setters atualizados
-    public QuestionType getTipo() {
-        return tipo;
+    public int getQuestionId() {
+        return questionId;
     }
 
-    public void setTipo(QuestionType tipo) {
-        this.tipo = tipo;
+    public void setQuestionId(int questionId) {
+        this.questionId = questionId;
     }
 
-    public int getCodigo() {
-        return codigo;
+    public String getStatement() {
+        return statement;
     }
 
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
+    public void setStatement(String statement) {
+        this.statement = statement;
     }
 
-    public String getEnunciado() {
-        return enunciado;
+    public String getAnswerKey() {
+        return answerKey;
     }
 
-    public void setEnunciado(String enunciado) {
-        this.enunciado = enunciado;
+    public void setAnswerKey(String answerKey) {
+        this.answerKey = answerKey;
     }
 
-    public String getGabarito() {
-        return gabarito;
+    public Subject getSubject() {
+        return subject;
     }
 
-    public void setGabarito(String gabarito) {
-        this.gabarito = gabarito;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
-    public Object getDisciplina() {
-        return disciplina;
+    public String getTopic() {
+        return topic;
     }
 
-    public void setDisciplina(Subject disciplina) {
-        this.disciplina = disciplina;
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
-    public String getAssunto() {
-        return assunto;
+    public Difficulty getDifficulty() {
+        return difficulty;
     }
 
-    public void setAssunto(String assunto) {
-        this.assunto = assunto;
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 
-    public int getNivelDificuldade() {
-        return nivelDificuldade;
+    public Teacher getTeacher() {
+        return teacher;
     }
 
-    public void setNivelDificuldade(int nivelDificuldade) {
-        this.nivelDificuldade = nivelDificuldade;
-    }
-
-    public Teacher getProfessor() {
-        return professor;
-    }
-
-    public void setProfessor(Teacher professor) {
-        this.professor = professor;
-    }
-    public List<Alternative> getAlternativas() {
-        return alternativas;
-    }
-    public void setAlternativas(List<Alternative> alternativas) {
-        this.alternativas = alternativas;
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
     }
 }

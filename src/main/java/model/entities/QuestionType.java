@@ -1,6 +1,6 @@
 package model.entities;
 
 public enum QuestionType {
-    MULTIPLA_ESCOLHA,
-    DISCURSIVA
+    MULTIPLE_CHOICE,
+    DISCURSIVE
 }
