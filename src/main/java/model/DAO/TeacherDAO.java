@@ -8,83 +8,85 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.entities.Teacher;
-import model.entities.User;
-import model.entities.UserRole;
 
 public class TeacherDAO {
 
-    private Connection conexao;
-    
-    public TeacherDAO(Connection conexao) {
-        this.conexao = conexao;
-    }
+    public void insert(Teacher teacher) {
+        String sql = "INSERT INTO teacher (teacher_id, registration_number) VALUES (?, ?)";
 
-    public void inserir(Teacher teacher) {
-        String sql = "INSERT INTO teachers (user_id, registration_number) VALUES (?, ?)";
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            stmt.setInt(1, teacher.getUser().getIdUser()); 
-            stmt.setString(2, teacher.getResgistration_number());
-            
+            stmt.setInt(1, teacher.getUser().getIdUser());
+            setStatementParams(stmt, teacher, 2); 
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir professor no banco: " + e.getMessage(), e);
+            throw new RuntimeException("Erro ao vincular dados do professor: " + e.getMessage(), e);
         }
     }
 
-    public List<Teacher> listar() {
-        // CORREÇÃO: u.status adicionado no SELECT
-        String sql = "SELECT u.user_id, u.name, u.email, u.password, u.role, u.status, t.registration_number " +
-                     "FROM users u INNER JOIN teachers t ON u.user_id = t.user_id";
-        
-        List<Teacher> listaTeachers = new ArrayList<>();
+    public void update(Teacher teacher) {
+        String sql = "UPDATE teacher SET registration_number = ? WHERE teacher_id = ?";
 
-        try (PreparedStatement stmt = conexao.prepareStatement(sql);
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            setStatementParams(stmt, teacher, 1);
+            stmt.setInt(2, teacher.getUser().getIdUser());
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar matrícula do professor: " + e.getMessage(), e);
+        }
+    }
+
+    public List<Teacher> findAll() {
+        String sql = "SELECT t.*, u.* FROM teacher t INNER JOIN user u ON t.teacher_id = u.id_user WHERE u.status = true";
+        List<Teacher> list = new ArrayList<>();
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                User user = new User();
-                user.setIdUser(rs.getInt("user_id"));
-                user.setName(rs.getString("name"));
-                user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
-                
-                // CORREÇÃO: Status resgatado do banco
-                user.setStatus(rs.getBoolean("status"));
-                
-                // CORREÇÃO: .toUpperCase() adicionado
-                String roleDoBanco = rs.getString("role");
-                if (roleDoBanco != null) {
-                    user.setRole(UserRole.valueOf(roleDoBanco.toUpperCase())); 
-                }
-                
-                Teacher teacher = new Teacher();
-                teacher.setResgistration_number(rs.getString("registration_number"));
-                teacher.setUser(user); 
-                
-                listaTeachers.add(teacher);
+                list.add(instantiateTeacher(rs));
             }
 
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao listar professores: " + e.getMessage(), e);
         }
-        
-        return listaTeachers;
+        return list;
     }
 
-    public void atualizar(Teacher teacher) {
-        String sql = "UPDATE teachers SET registration_number = ? WHERE user_id = ?";
-
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+    public Teacher findById(int idTeacher) {
+        String sql = "SELECT t.*, u.* FROM teacher t INNER JOIN user u ON t.teacher_id = u.id_user WHERE t.teacher_id = ?";
+        
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
             
-            stmt.setString(1, teacher.getResgistration_number());
-            stmt.setInt(2, teacher.getUser().getIdUser()); 
-            
-            stmt.executeUpdate();
-
+            stmt.setInt(1, idTeacher);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return instantiateTeacher(rs);
+                }
+            }
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar professor: " + e.getMessage(), e);
+            throw new RuntimeException("Erro ao buscar professor por ID: " + e.getMessage(), e);
         }
+        return null;
+    }
+
+    private void setStatementParams(PreparedStatement stmt, Teacher teacher, int parameterIndex) throws SQLException {
+        stmt.setString(parameterIndex, teacher.getResgistration_number());
+    }
+
+    private Teacher instantiateTeacher(ResultSet rs) throws SQLException {
+        Teacher teacher = new Teacher();
+        teacher.setResgistration_number(rs.getString("registration_number"));
+        
+        teacher.setUser(UserDAO.instantiateUser(rs));
+        
+        return teacher;
     }
 }

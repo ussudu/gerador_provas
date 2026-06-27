@@ -1,128 +1,141 @@
 package model.services;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import model.DAO.ExamDAO;
+import model.DAO.QuestionDAO;
 import model.entities.Exam;
 import model.entities.Question;
+import model.exceptions.EntidadeNaoEncontradaException;
+import model.exceptions.RegraNegocioException;
 
 public class ExamService {
 
     private ExamDAO examDAO;
+    private QuestionDAO questionDAO;
 
-    public ExamService(ExamDAO examDAO) {
+    public ExamService(ExamDAO examDAO, QuestionDAO questionDAO) {
         this.examDAO = examDAO;
+        this.questionDAO = questionDAO;
     }
 
-    public void cadastrar(Exam exam) {
-        validarDados(exam);
-        examDAO.inserir(exam);
+    public void insert(Exam exam) {
+        validate(exam);
+        examDAO.insert(exam);
     }
 
-    public ArrayList<Exam> listar() {
-        return examDAO.listar();
+    public void update(Exam exam) {
+        if (exam == null || exam.getExamId() <= 0) {
+            throw new RegraNegocioException("Código da prova inválido para atualização.");
+        }
+        
+        validate(exam);
+        examDAO.update(exam);
     }
 
-    public void atualizar(Exam exam) {
-
-        if (exam.getExamId() <= 0) {
-            throw new IllegalArgumentException("Código da prova inválido.");
-        }
-        validarDados(exam);
-
-        examDAO.atualizar(exam);
-    }
-
-    public void excluir(int codigo) {
-
-        if (codigo <= 0) {
-            throw new IllegalArgumentException("Código da prova inválido.");
-        }
-
-        examDAO.excluir(codigo);
-    }
-
-    public void adicionarQuestao(Exam exam, Question question) {
-        if (exam == null || question == null) {
-            throw new IllegalArgumentException("Prova ou questão inválida.");
-        }
-
-        exam.addQuestao(question);
-        if (exam.getExamId() > 0) {
-            examDAO.vincularQuestao(exam.getExamId(), question.getQuestionId());
-        }
-    }
-
-    public void removerQuestao(Exam exam, Question question) {
-        if (exam == null || question == null) {
-            throw new IllegalArgumentException("Prova ou questão inválida.");
-        }
-
-        exam.removerQuestao(question);
-
-        if (exam.getExamId() > 0) {
-            examDAO.desvincularQuestao(exam.getExamId(), question.getQuestionId());
-        }
-    }
-
-    public List<Exam> buscarPorSemestre(String semestre) {
-        if (semestre == null || semestre.trim().isEmpty()) {
-            throw new IllegalArgumentException("O campo semestre é obrigatório e não pode ser vazio.");
-        }
-
-        if (!semestre.matches("\\d{4}\\.\\d")) {
-            throw new IllegalArgumentException("O semestre deve seguir o formato padrão (Ex: 2026.1 ou 2026.2).");
-        }
-
-        try {
-            return examDAO.findBySemestre(semestre);
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro no sistema ao buscar provas pelo semestre: " + e.getMessage());
-        }
-    }
-
-    public List<Exam> buscarPorDisciplina(int disciplinaId) {
-        if (disciplinaId <= 0) {
-            throw new IllegalArgumentException("ID da disciplina inválido. Selecione uma disciplina válida na lista.");
-        }
-
-        try {
-            return examDAO.findByDisciplina(disciplinaId);
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro no sistema ao buscar provas pela disciplina: " + e.getMessage());
-        }
-    }
-    public Exam buscarPorId(int id) {
+    public void delete(int id) {
         if (id <= 0) {
-            throw new IllegalArgumentException("ID da prova inválido. O ID deve ser maior que zero.");
+            throw new RegraNegocioException("Código da prova inválido para exclusão.");
+        }
+        examDAO.delete(id);
+    }
+
+    public List<Exam> findAll() {
+        return examDAO.findAll();
+    }
+
+    public Exam findById(int id) {
+        if (id <= 0) {
+            throw new RegraNegocioException("ID da prova inválido. O ID deve ser maior que zero.");
         }
         
         Exam exam = examDAO.findById(id);
         
         if (exam == null) {
-            throw new IllegalArgumentException("Nenhuma prova encontrada com o ID informado.");
+            throw new EntidadeNaoEncontradaException("Nenhuma prova encontrada com o ID informado.");
         }
         
         return exam;
     }
-    private void validarDados(Exam exam)
-    {
-        if (exam == null) {
-            throw new IllegalArgumentException("A prova não pode ser nula.");
+    public Exam findFullExamById(int id) {
+        Exam exam = findById(id); 
+        try {
+            List<Question> questoesDaProva = questionDAO.findByExam(id);
+            exam.setQuestions(questoesDaProva);
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro interno ao buscar as questões vinculadas à prova: " + e.getMessage());
         }
 
-        if (exam.getSubject() == null) {
-            throw new IllegalArgumentException("A disciplina da prova é obrigatória.");
+        return exam;
+    }
+
+    public List<Exam> findBySemester(String semester) {
+        if (semester == null || semester.trim().isEmpty()) {
+            throw new RegraNegocioException("O campo semestre é obrigatório e não pode ser vazio.");
+        }
+
+        if (!semester.matches("\\d{4}\\.\\d")) {
+            throw new RegraNegocioException("O semestre deve seguir o formato padrão (Ex: 2026.1 ou 2026.2).");
+        }
+
+        return examDAO.findBySemester(semester);
+    }
+
+    public List<Exam> findBySubject(int subjectId) {
+        if (subjectId <= 0) {
+            throw new RegraNegocioException("ID da disciplina inválido. Selecione uma disciplina válida na lista.");
+        }
+
+        return examDAO.findBySubject(subjectId);
+    }
+
+    public void addQuestion(Exam exam, Question question) {
+        if (exam == null || question == null) {
+            throw new RegraNegocioException("Prova ou questão inválida para o vínculo.");
+        }
+        exam.addQuestao(question); 
+        
+        if (exam.getExamId() > 0 && question.getQuestionId() > 0) {
+            examDAO.linkSingleQuestion(exam.getExamId(), question.getQuestionId());
+        }
+    }
+
+    public void removeQuestion(Exam exam, Question question) {
+        if (exam == null || question == null) {
+            throw new RegraNegocioException("Prova ou questão inválida para o desvínculo.");
+        }
+        exam.removerQuestao(question);
+
+        if (exam.getExamId() > 0 && question.getQuestionId() > 0) {
+            examDAO.unlinkQuestion(exam.getExamId(), question.getQuestionId());
+        }
+    }
+
+    public void saveGeneratedExam(Exam exam, List<Question> generatedQuestions) {
+        if (generatedQuestions == null || generatedQuestions.isEmpty()) {
+            throw new RegraNegocioException("Não é possível salvar uma prova sem questões.");
+        }
+        insert(exam);
+        examDAO.linkQuestionsBatch(exam.getExamId(), generatedQuestions);
+        exam.setQuestions(generatedQuestions);
+    }
+
+    private void validate(Exam exam) {
+        if (exam == null) {
+            throw new RegraNegocioException("A prova não pode ser nula.");
+        }
+
+        if (exam.getSubject() == null || exam.getSubject().getIdSubject() <= 0) {
+            throw new RegraNegocioException("A disciplina da prova é obrigatória.");
         }
 
         if (exam.getSemester() == null || exam.getSemester().trim().isEmpty()) {
-            throw new IllegalArgumentException("O semestre da prova é obrigatório.");
+            throw new RegraNegocioException("O semestre da prova é obrigatório.");
         }
 
-        if (exam.getTeacher() == null) {
-            throw new IllegalArgumentException("O professor da prova é obrigatório.");
+        if (exam.getTeacher() == null || exam.getTeacher().getUser() == null || exam.getTeacher().getUser().getIdUser() <= 0) {
+            throw new RegraNegocioException("O professor responsável pela prova é obrigatório.");
         }
     }
 }

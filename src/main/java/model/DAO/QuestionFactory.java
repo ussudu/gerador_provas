@@ -1,4 +1,4 @@
-package model.factory;
+package model.DAO;
 
 import model.entities.DiscursiveQuestion;
 import model.entities.MultipleChoiceQuestion;

@@ -8,64 +8,80 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.entities.Admin;
-import model.entities.User;
-import model.entities.UserRole;
 
 public class AdminDAO {
 
-    private Connection conexao;
+    public void insert(Admin admin) {
+        String sql = "INSERT INTO admin (admin_id) VALUES (?)";
 
-    public AdminDAO(Connection conexao) {
-        this.conexao = conexao;
-    }
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-    public void inserir(Admin admin) {
-        String sql = "INSERT INTO admins (user_id) VALUES (?)";
-
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            stmt.setInt(1, admin.getUser().getIdUser());
+            setStatementParams(stmt, admin);
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir administrador no banco: " + e.getMessage(), e);
+            throw new RuntimeException("Erro ao conceder privilégios de administrador: " + e.getMessage(), e);
         }
     }
 
-    public List<Admin> listar() {
-        // CORREÇÃO: u.status adicionado no SELECT
-        String sql = "SELECT u.user_id, u.name, u.email, u.password, u.role, u.status " +
-                     "FROM users u INNER JOIN admins a ON u.user_id = a.user_id";
-        
-        List<Admin> listaAdmins = new ArrayList<>();
+    public void delete(int idAdmin) {
+        String sql = "DELETE FROM admin WHERE admin_id = ?";
 
-        try (PreparedStatement stmt = conexao.prepareStatement(sql);
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idAdmin);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao remover privilégio de administrador: " + e.getMessage(), e);
+        }
+    }
+
+    public List<Admin> findAll() {
+        String sql = "SELECT a.*, u.* FROM admin a INNER JOIN user u ON a.admin_id = u.id_user WHERE u.status = true";
+        List<Admin> list = new ArrayList<>();
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                User user = new User();
-                user.setIdUser(rs.getInt("user_id"));
-                user.setName(rs.getString("name"));
-                user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
-                
-                // CORREÇÃO: Status resgatado do banco
-                user.setStatus(rs.getBoolean("status"));
-                
-                // CORREÇÃO: .toUpperCase() adicionado
-                String roleDoBanco = rs.getString("role");
-                if (roleDoBanco != null) {
-                    user.setRole(UserRole.valueOf(roleDoBanco.toUpperCase())); 
-                }
-                
-                Admin admin = new Admin();
-                admin.setUser(user);
-                listaAdmins.add(admin);
+                list.add(instantiateAdmin(rs));
             }
 
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao listar administradores: " + e.getMessage(), e);
         }
+        return list;
+    }
+
+    public Admin findById(int idAdmin) {
+        String sql = "SELECT a.*, u.* FROM admin a INNER JOIN user u ON a.admin_id = u.id_user WHERE a.admin_id = ?";
         
-        return listaAdmins;
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, idAdmin);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return instantiateAdmin(rs);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar administrador por ID: " + e.getMessage(), e);
+        }
+        return null;
+    }
+
+    private void setStatementParams(PreparedStatement stmt, Admin admin) throws SQLException {
+        stmt.setInt(1, admin.getUser().getIdUser());
+    }
+
+    private Admin instantiateAdmin(ResultSet rs) throws SQLException {
+        Admin admin = new Admin();
+        admin.setUser(UserDAO.instantiateUser(rs));
+        return admin;
     }
 }

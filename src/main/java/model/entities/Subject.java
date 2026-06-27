@@ -4,7 +4,9 @@ public class Subject {
     
     private int idSubject;
     private String name;
+    private String topics;
     private Teacher teacher; 
+    private String code;
 
     public int getIdSubject() {
         return idSubject;
@@ -29,5 +31,16 @@ public class Subject {
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
     }
-
+    public String getCode() {
+        return code;
+    }
+    public void setCode(String code) {
+        this.code = code;
+    }
+    public String getTopics() {
+        return topics;
+    }
+    public void setTopics(String topics) {
+        this.topics = topics;
+    }
 }

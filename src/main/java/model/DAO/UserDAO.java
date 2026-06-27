@@ -5,144 +5,150 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import model.entities.User;
 import model.entities.UserRole;
 
 public class UserDAO {
 
-    private Connection conexao;
+    public void insert(User user) {
+        String sql = "INSERT INTO user (name, email, role, password, status) VALUES (?, ?, ?, ?, ?)";
 
-    public UserDAO(Connection conexao) {
-        this.conexao = conexao;
-    }
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-    public User inserir(User user) {
-        String sql = "INSERT INTO users (name, email, password, role, status) VALUES (?, ?, ?, ?, ?)";
-
-        try (PreparedStatement stmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            
-            stmt.setString(1, user.getName());
-            stmt.setString(2, user.getEmail());
-            stmt.setString(3, user.getPassword());
-            stmt.setString(4, user.getRole().name()); 
+            setStatementParams(stmt, user);
+            stmt.setString(4, user.getPassword());
             stmt.setBoolean(5, true);
 
-            int linhasAfetadas = stmt.executeUpdate();
+            stmt.executeUpdate();
 
-            if (linhasAfetadas > 0) {
-                try (ResultSet rs = stmt.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        user.setIdUser(rs.getInt(1)); 
-                    }
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    user.setIdUser(rs.getInt(1));
                 }
             }
-            return user;
 
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao inserir usuário no banco: " + e.getMessage(), e);
         }
     }
 
-    public List<User> listar() {
-        List<User> usuarios = new ArrayList<>();
-        String sql = "SELECT * FROM users ORDER BY user_id";
+    public void update(User user) {
+        String sql = "UPDATE user SET name = ?, email = ?, role = ? WHERE id_user = ?";
 
-        try (PreparedStatement stmt = conexao.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            while (rs.next()) {
-                User user = new User();
-                user.setIdUser(rs.getInt("user_id"));
-                user.setName(rs.getString("name"));
-                user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
-                user.setStatus(rs.getBoolean("status"));
-                
-                // CORREÇÃO: .toUpperCase() adicionado
-                String roleDoBanco = rs.getString("role");
-                if (roleDoBanco != null) {
-                    user.setRole(UserRole.valueOf(roleDoBanco.toUpperCase()));
+            setStatementParams(stmt, user);
+            stmt.setInt(4, user.getIdUser());
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar dados do usuário: " + e.getMessage(), e);
+        }
+    }
+
+    public void updatePassword(int idUser, String newPassword) {
+        String sql = "UPDATE user SET password = ? WHERE id_user = ?";
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, newPassword);
+            stmt.setInt(2, idUser);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar senha: " + e.getMessage(), e);
+        }
+    }
+
+    public void inactivate(int idUser) {
+        String sql = "UPDATE user SET status = false WHERE id_user = ?";
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idUser);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao inativar usuário: " + e.getMessage(), e);
+        }
+    }
+
+    public User findById(int idUser) {
+        String sql = "SELECT * FROM user WHERE id_user = ?";
+        
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, idUser);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return instantiateUser(rs);
                 }
-                
-                usuarios.add(user);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao listar usuários: " + e.getMessage(), e);
+            throw new RuntimeException("Erro ao buscar usuário por ID: " + e.getMessage(), e);
         }
-        return usuarios;
+        return null;
     }
 
-    public void atualizar(User user) {
-        String sql = "UPDATE users SET name = ?, email = ?, password = ? WHERE user_id = ?";
-
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+    public User findByEmail(String email) {
+        String sql = "SELECT * FROM user WHERE email = ?";
+        
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
             
-            stmt.setString(1, user.getName());
-            stmt.setString(2, user.getEmail());
-            stmt.setString(3, user.getPassword());
-            stmt.setInt(4, user.getIdUser());
-            stmt.executeUpdate();
-
+            stmt.setString(1, email);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return instantiateUser(rs);
+                }
+            }
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar usuário: " + e.getMessage(), e);
+            throw new RuntimeException("Erro ao buscar usuário por E-mail: " + e.getMessage(), e);
         }
+        return null;
     }
 
-    public void desativar(int idUser) {
-        // CORREÇÃO: Tabela "users" e coluna "user_id"
-        String sql = "UPDATE users SET status = false WHERE user_id = ?";
+    public User authenticate(String email, String password) {
+        String sql = "SELECT * FROM user WHERE email = ? AND password = ? AND status = true";
         
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            stmt.setInt(1, idUser);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao desativar usuário: " + e.getMessage(), e);
-        }
-    }
-    
-    public void ativar(int idUser) {
-        // CORREÇÃO: Tabela "users" e coluna "user_id"
-        String sql = "UPDATE users SET status = true WHERE user_id = ?";
-        
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            stmt.setInt(1, idUser);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao ativar usuário: " + e.getMessage(), e);
-        }
-    }
-
-    public User buscarPorEmailESenha(String email, String password) {
-        String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
-        User user = null;
-
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setString(1, email);
             stmt.setString(2, password);
-
+            
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    user = new User();
-                    user.setIdUser(rs.getInt("user_id"));
-                    user.setName(rs.getString("name"));
-                    user.setEmail(rs.getString("email"));
-                    user.setPassword(rs.getString("password"));
-                    
-                    String roleDoBanco = rs.getString("role");
-                    if (roleDoBanco != null) {
-                        user.setRole(UserRole.valueOf(roleDoBanco.toUpperCase())); 
-                    }
-                    user.setStatus(rs.getBoolean("status"));
+                    return instantiateUser(rs);
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao verificar login: " + e.getMessage(), e);
+            throw new RuntimeException("Erro na autenticação: " + e.getMessage(), e);
         }
-        
+        return null;
+    }
+
+    private void setStatementParams(PreparedStatement stmt, User user) throws SQLException {
+        stmt.setString(1, user.getName());
+        stmt.setString(2, user.getEmail());
+        stmt.setString(3, user.getRole().name());
+    }
+
+    public static User instantiateUser(ResultSet rs) throws SQLException {
+        User user = new User();
+        user.setIdUser(rs.getInt("id_user"));
+        user.setName(rs.getString("name"));
+        user.setEmail(rs.getString("email"));
+        user.setPassword(rs.getString("password"));
+        user.setRole(UserRole.valueOf(rs.getString("role"))); 
+        user.setStatus(rs.getBoolean("status"));
         return user;
     }
 }
