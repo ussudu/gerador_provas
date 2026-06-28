@@ -1,20 +1,46 @@
 package model.entities;
 
-import java.util.List;
-
 public class MultipleChoiceQuestion extends Question {
-    private List<String> alternatives;
+    
+    private String alternativeA;
+    private String alternativeB;
+    private String alternativeC;
+    private String alternativeD;
 
     @Override
     public String getType() {
         return "MULTIPLE_CHOICE";
     }
 
-    public List<String> getAlternatives() { 
-        return alternatives; 
+    public String getAlternativeA() {
+        return alternativeA;
     }
 
-    public void setAlternatives(List<String> alternatives) {
-         this.alternatives = alternatives; 
+    public void setAlternativeA(String alternativeA) {
+        this.alternativeA = alternativeA;
+    }
+
+    public String getAlternativeB() {
+        return alternativeB;
+    }
+
+    public void setAlternativeB(String alternativeB) {
+        this.alternativeB = alternativeB;
+    }
+
+    public String getAlternativeC() {
+        return alternativeC;
+    }
+
+    public void setAlternativeC(String alternativeC) {
+        this.alternativeC = alternativeC;
+    }
+
+    public String getAlternativeD() {
+        return alternativeD;
+    }
+
+    public void setAlternativeD(String alternativeD) {
+        this.alternativeD = alternativeD;
     }
 }

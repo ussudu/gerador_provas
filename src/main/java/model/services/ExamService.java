@@ -60,12 +60,9 @@ public class ExamService {
     }
     public Exam findFullExamById(int id) {
         Exam exam = findById(id); 
-        try {
-            List<Question> questoesDaProva = questionDAO.findByExam(id);
-            exam.setQuestions(questoesDaProva);
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro interno ao buscar as questões vinculadas à prova: " + e.getMessage());
-        }
+        
+        List<Question> questoesDaProva = questionDAO.findByExam(id);
+        exam.setQuestions(questoesDaProva);
 
         return exam;
     }
@@ -89,12 +86,18 @@ public class ExamService {
 
         return examDAO.findBySubject(subjectId);
     }
+    public List<Exam> findByTeacher(int teacherId) {
+        if (teacherId <= 0) {
+            throw new RegraNegocioException("ID do professor inválido para busca.");
+        }
+        return examDAO.findByTeacher(teacherId);
+    }
 
     public void addQuestion(Exam exam, Question question) {
         if (exam == null || question == null) {
             throw new RegraNegocioException("Prova ou questão inválida para o vínculo.");
         }
-        exam.addQuestao(question); 
+        exam.insertQuestion(question); 
         
         if (exam.getExamId() > 0 && question.getQuestionId() > 0) {
             examDAO.linkSingleQuestion(exam.getExamId(), question.getQuestionId());
@@ -105,7 +108,7 @@ public class ExamService {
         if (exam == null || question == null) {
             throw new RegraNegocioException("Prova ou questão inválida para o desvínculo.");
         }
-        exam.removerQuestao(question);
+        exam.removeQuestion(question);
 
         if (exam.getExamId() > 0 && question.getQuestionId() > 0) {
             examDAO.unlinkQuestion(exam.getExamId(), question.getQuestionId());
