@@ -1,6 +1,5 @@
 package model.services;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import model.DAO.ExamDAO;

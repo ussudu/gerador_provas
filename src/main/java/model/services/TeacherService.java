@@ -3,7 +3,6 @@ package model.services;
 import java.util.List;
 
 import model.DAO.TeacherDAO;
-import model.entities.Admin;
 import model.entities.Teacher;
 import model.exceptions.EntidadeNaoEncontradaException;
 import model.exceptions.RegraNegocioException;
