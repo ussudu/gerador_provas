@@ -8,6 +8,17 @@ public class User {
     private UserRole role;
     private boolean status;
 
+    public User() {
+    }
+    public User (String name, String email, String password, UserRole role )
+    {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.status = true;
+    }
+
     public int getIdUser() {
         return idUser;
     }

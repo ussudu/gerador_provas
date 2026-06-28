@@ -8,11 +8,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        
+
         SceneManager.getInstance().setPrimaryStage(primaryStage);
-        
-        primaryStage.setResizable(false);
-    
+        primaryStage.setMaximized(true);
         SceneManager.getInstance().navigateTo("/view/login.fxml", "Sistema de Provas - Entrar");
     }
 

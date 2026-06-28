@@ -10,6 +10,7 @@ public class SceneManager {
 
     private static SceneManager instance;
     private Stage primaryStage;
+
     private SceneManager() {
     }
 
@@ -28,18 +29,17 @@ public class SceneManager {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
-            
-            Scene scene = new Scene(root);
-            
+
+            if (primaryStage.getScene() == null) {
+                primaryStage.setScene(new Scene(root));
+            } else {
+                primaryStage.getScene().setRoot(root);
+            }
+
             primaryStage.setTitle(title);
-            primaryStage.setScene(scene);
             primaryStage.show();
-            
-        } catch (IOException e) {
-            System.err.println("Erro ao carregar a tela: " + fxmlPath);
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-            System.err.println("Arquivo FXML não encontrado no caminho: " + fxmlPath);
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -9,14 +9,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="700.0" styleClass="container" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="java.presenter.controllers.LoginController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="700.0" styleClass="container" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presenter.controllers.LoginController">
     <top>
         <fx:include source="header.fxml" /> 
     </top>
    <center>
       <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" styleClass="container-login" stylesheets="@../styles/style.css" BorderPane.alignment="TOP_CENTER">
          <children>
-            <Label fx:id="lbError" styleClass="texto-cinza" stylesheets="@../styles/style.css" textFill="RED" />
             <Label alignment="CENTER" contentDisplay="CENTER" styleClass="titulo-login" stylesheets="@../styles/style.css" text="Login" />
             <Label styleClass="texto-cinza" stylesheets="@../styles/style.css" text="Geração e gerenciamento de provas acadêmicas" />
             <VBox prefHeight="200.0" prefWidth="100.0">
@@ -31,14 +30,15 @@
                   <PasswordField fx:id="txtPassword" promptText="********" styleClass="campo-texto" />
                </children>
             </VBox>
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="botao-primario" stylesheets="@../styles/style.css" text="Entrar" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onBtnLoginAction" styleClass="botao-primario" stylesheets="@../styles/style.css" text="Entrar" />
             <Label styleClass="texto-cinza" stylesheets="@../styles/style.css" text="Não conseguiu realizar login?" />
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="botao-secundario" stylesheets="@../styles/style.css" text="Cadastre-se" HBox.hgrow="ALWAYS" />
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="botao-secundario" stylesheets="@../styles/style.css" text="Alterar senha" HBox.hgrow="ALWAYS" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onBtnSignUpAction" styleClass="botao-secundario" stylesheets="@../styles/style.css" text="Cadastre-se" HBox.hgrow="ALWAYS" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onBtnUpdatePasswordAction" styleClass="botao-secundario" stylesheets="@../styles/style.css" text="Alterar senha" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
+            <Label fx:id="lbError" styleClass="texto-cinza" stylesheets="@../styles/style.css" textFill="RED" />
          </children>
          <BorderPane.margin>
             <Insets bottom="10.0" top="25.0" />
