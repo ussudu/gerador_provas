@@ -147,7 +147,7 @@ public class ExamDAO {
         return exams;
     }
     public List<Exam> findByTeacher(int teacherId) {
-        String sql = "SELECT * FROM exam WHERE teacher_id = ?";
+        String sql = "SELECT * FROM exams WHERE teacher_id = ?";
         List<Exam> list = new ArrayList<>();
 
         try (Connection conn = ConnectionFactory.getConnection();

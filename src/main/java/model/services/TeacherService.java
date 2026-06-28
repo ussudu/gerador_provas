@@ -3,6 +3,7 @@ package model.services;
 import java.util.List;
 
 import model.DAO.TeacherDAO;
+import model.entities.Admin;
 import model.entities.Teacher;
 import model.exceptions.EntidadeNaoEncontradaException;
 import model.exceptions.RegraNegocioException;
@@ -51,6 +52,12 @@ public class TeacherService {
         }
         return teacher;
     }
+    public void inactivateAdmin(Teacher teacher) {
+        if (teacher == null || teacher.getUser() == null || teacher.getUser().getIdUser() <= 0) {
+            throw new RegraNegocioException("Professor inválido para inativação.");
+        }
+        userService.inactivate(teacher.getUser().getIdUser());
+    }
 
     private void validate(Teacher teacher) {
         if (teacher == null) {
@@ -59,7 +66,7 @@ public class TeacherService {
         if (teacher.getUser() == null) {
             throw new RegraNegocioException("Os dados de usuário (nome, e-mail) do professor são obrigatórios.");
         }
-        if (teacher.getResgistration_number() == null || teacher.getResgistration_number().trim().isEmpty()) {
+        if (teacher.getRegistration_number() == null || teacher.getRegistration_number().trim().isEmpty()) {
             throw new RegraNegocioException("A matrícula (Registration Number) do professor é obrigatória.");
         }
     }

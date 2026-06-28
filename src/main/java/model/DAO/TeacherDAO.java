@@ -78,12 +78,12 @@ public class TeacherDAO {
     }
 
     private void setStatementParams(PreparedStatement stmt, Teacher teacher, int parameterIndex) throws SQLException {
-        stmt.setString(parameterIndex, teacher.getResgistration_number());
+        stmt.setString(parameterIndex, teacher.getRegistration_number());
     }
 
     private Teacher instantiateTeacher(ResultSet rs) throws SQLException {
         Teacher teacher = new Teacher();
-        teacher.setResgistration_number(rs.getString("registration_number"));
+        teacher.setRegistration_number(rs.getString("registration_number"));
         
         teacher.setUser(UserDAO.instantiateUser(rs));
         

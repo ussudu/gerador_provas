@@ -4,12 +4,12 @@ public class Teacher {
     private User user;
     private String registration_number;
 
-    public String getResgistration_number() {
+    public String getRegistration_number() {
         return registration_number;
     }
 
-    public void setResgistration_number(String resgistration_number) {
-        this.registration_number = resgistration_number;
+    public void setRegistration_number(String registration_number) {
+        this.registration_number = registration_number;
     }
     public User getUser() {
         return user;

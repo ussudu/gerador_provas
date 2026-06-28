@@ -62,13 +62,13 @@ public class Exam {
         this.questions = questions;
     }
 
-    public void addQuestao(Question questao) {
-        if (questao != null && !questions.contains(questao)) {
-            this.questions.add(questao);
+    public void insertQuestion(Question question) {
+        if (question != null && !questions.contains(question)) {
+            this.questions.add(question);
         }
     }
 
-    public void removerQuestao(Question questao) {
-        this.questions.remove(questao);
+    public void removeQuestion(Question question) {
+        this.questions.remove(question);
     }
 }
