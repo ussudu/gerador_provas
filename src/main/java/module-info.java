@@ -2,9 +2,11 @@ module geradorProvas.javafx {
     requires javafx.controls;
     requires javafx.fxml;
     
-    requires java.sql;
+    requires java.sql; 
 
-    opens view to javafx.fxml;
-    
-    exports view; 
+    opens presenter to javafx.graphics, javafx.fxml;
+    exports presenter;
+
+    opens presenter.controllers to javafx.fxml;
+    exports presenter.controllers;
 }
