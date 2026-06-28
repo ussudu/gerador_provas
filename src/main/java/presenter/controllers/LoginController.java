@@ -37,7 +37,7 @@ public class LoginController {
             User user = userService.authenticate(email, password);
 
             if (user != null) {
-                SceneManager.getInstance().navigateTo("/resources/screens/home.fxml", "Página inicial do usuário");
+                SceneManager.getInstance().navigateTo("/main/resources/view/home.fxml", "Página inicial do usuário");
             } else {
                 showLoginError();
             }
@@ -48,12 +48,12 @@ public class LoginController {
 
     @FXML
     public void onBtnSignUpAction(ActionEvent event) {
-        SceneManager.getInstance().navigateTo("/resources/screens/sign-up.fxml", "Cadastro de Professor");
+        SceneManager.getInstance().navigateTo("/main/resources/view/sign-up.fxml", "Cadastro de Professor");
     }
 
     @FXML
     public void onBtnUpdatePasswordAction(ActionEvent event) {
-        SceneManager.getInstance().navigateTo("/resources/screens/update-password.fxml", "Alteração de senha do usuário");
+        SceneManager.getInstance().navigateTo("/main/resources/view/update-password.fxml", "Alteração de senha do usuário");
     }
 
 
