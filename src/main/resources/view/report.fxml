@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane fx:id="rootStackPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://fxml.com/fxml/1" fx:controller="presenter.controllers.ReportController">
+    <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="750.0" styleClass="container" stylesheets="@../styles/style.css">
+
+        <top>
+            <fx:include source="header.fxml" />
+        </top>
+
+        <left>
+            <VBox>
+                <BorderPane.margin>
+                    <Insets left="15.0" top="20.0" />
+                </BorderPane.margin>
+                <fx:include source="sidebar.fxml" />
+            </VBox>
+        </left>
+
+        <center>
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background: #ffffff; -fx-background-color: #ffffff; -fx-border-color: transparent; -fx-padding: 0;" vbarPolicy="AS_NEEDED">
+                <content>
+                    <VBox spacing="20.0" style="-fx-background-color: #ffffff;">
+                        <padding>
+                            <Insets bottom="30.0" right="20.0" top="15.0" />
+                        </padding>
+                        <children>
+
+                            <VBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="54.0">
+                                <children>
+                                    <Label styleClass="titulo-pagina" stylesheets="@../styles/exam.css" text="Relatórios e Estatísticas" />
+                                    <Label styleClass="subtitulo-pagina" stylesheets="@../styles/exam.css" text="Visão geral do sistema de provas" />
+                                </children>
+                            </VBox>
+
+                            <HBox spacing="15.0" maxWidth="1.7976931348623157E308">
+                                <children>
+                                    <VBox prefHeight="110.0" style="-fx-background-color: #ffffff; -fx-background-radius: 12; -fx-border-color: #e2e8f0; -fx-border-radius: 12; -fx-padding: 15;" HBox.hgrow="ALWAYS">
+                                        <children>
+                                            <HBox alignment="CENTER_LEFT">
+                                                <children>
+                                                    <Label text="Provas" style="-fx-font-size: 14px; -fx-text-fill: #64748b; -fx-font-weight: bold;" />
+                                                    <Region HBox.hgrow="ALWAYS" />
+                                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                        <image><Image url="@../icons/prova%20(3).png" /></image>
+                                                    </ImageView>
+                                                </children>
+                                            </HBox>
+                                            <Region VBox.vgrow="ALWAYS" />
+                                            <Label fx:id="lblTotalProvas" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+                                        </children>
+                                    </VBox>
+
+                                    <VBox prefHeight="110.0" style="-fx-background-color: #ffffff; -fx-background-radius: 12; -fx-border-color: #e2e8f0; -fx-border-radius: 12; -fx-padding: 15;" HBox.hgrow="ALWAYS">
+                                        <children>
+                                            <HBox alignment="CENTER_LEFT">
+                                                <children>
+                                                    <Label text="Questões" style="-fx-font-size: 14px; -fx-text-fill: #64748b; -fx-font-weight: bold;" />
+                                                    <Region HBox.hgrow="ALWAYS" />
+                                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                        <image><Image url="@../icons/lupa.png" /></image>
+                                                    </ImageView>
+                                                </children>
+                                            </HBox>
+                                            <Region VBox.vgrow="ALWAYS" />
+                                            <Label fx:id="lblTotalQuestoes" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+                                        </children>
+                                    </VBox>
+
+                                    <VBox prefHeight="110.0" style="-fx-background-color: #ffffff; -fx-background-radius: 12; -fx-border-color: #e2e8f0; -fx-border-radius: 12; -fx-padding: 15;" HBox.hgrow="ALWAYS">
+                                        <children>
+                                            <HBox alignment="CENTER_LEFT">
+                                                <children>
+                                                    <Label text="Disciplinas" style="-fx-font-size: 14px; -fx-text-fill: #64748b; -fx-font-weight: bold;" />
+                                                    <Region HBox.hgrow="ALWAYS" />
+                                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                        <image><Image url="@../icons/prova%20(3).png" /></image>
+                                                    </ImageView>
+                                                </children>
+                                            </HBox>
+                                            <Region VBox.vgrow="ALWAYS" />
+                                            <Label fx:id="lblTotalDisciplinas" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+                                        </children>
+                                    </VBox>
+                                </children>
+                            </HBox>
+
+                            <VBox style="-fx-background-color: #ffffff; -fx-background-radius: 12; -fx-border-color: #e2e8f0; -fx-border-radius: 12; -fx-padding: 20;" spacing="15.0">
+                                <children>
+                                    <Label text="Distribuição de Questões por Nível de Dificuldade" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+                                    <HBox spacing="15.0" maxWidth="1.7976931348623157E308">
+                                        <children>
+                                            <VBox alignment="CENTER" prefHeight="100.0" style="-fx-background-color: #f0fdf4; -fx-background-radius: 8;" HBox.hgrow="ALWAYS">
+                                                <children>
+                                                    <Label fx:id="lblFacilQtd" text="0" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #16a34a;" />
+                                                    <Label text="Questões Fáceis" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #16a34a;" />
+                                                    <Label fx:id="lblFacilPorcento" text="0% do total" style="-fx-font-size: 11px; -fx-text-fill: #15803d;" />
+                                                </children>
+                                            </VBox>
+                                            <VBox alignment="CENTER" prefHeight="100.0" style="-fx-background-color: #fefce8; -fx-background-radius: 8;" HBox.hgrow="ALWAYS">
+                                                <children>
+                                                    <Label fx:id="lblMedioQtd" text="0" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #ca8a04;" />
+                                                    <Label text="Questões Médias" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #ca8a04;" />
+                                                    <Label fx:id="lblMedioPorcento" text="0% do total" style="-fx-font-size: 11px; -fx-text-fill: #a16207;" />
+                                                </children>
+                                            </VBox>
+                                            <VBox alignment="CENTER" prefHeight="100.0" style="-fx-background-color: #fef2f2; -fx-background-radius: 8;" HBox.hgrow="ALWAYS">
+                                                <children>
+                                                    <Label fx:id="lblDificilQtd" text="0" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #dc2626;" />
+                                                    <Label text="Questões Difíceis" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #dc2626;" />
+                                                    <Label fx:id="lblDificilPorcento" text="0% do total" style="-fx-font-size: 11px; -fx-text-fill: #b91c1c;" />
+                                                </children>
+                                            </VBox>
+                                        </children>
+                                    </HBox>
+                                </children>
+                            </VBox>
+
+                            <VBox style="-fx-background-color: #ffffff; -fx-background-radius: 12; -fx-border-color: #e2e8f0; -fx-border-radius: 12; -fx-padding: 20;" spacing="15.0">
+                                <children>
+                                    <Label text="Estatísticas por Disciplina" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+
+                                    <GridPane fx:id="gridDisciplinas" hgap="10.0" vgap="14.0" maxWidth="1.7976931348623157E308">
+                                        <columnConstraints>
+                                            <ColumnConstraints hgrow="ALWAYS" minWidth="160.0" percentWidth="30.0" />
+                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="70.0" percentWidth="12.0" />
+                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="65.0" percentWidth="11.0" />
+                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="65.0" percentWidth="11.0" />
+                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="60.0" percentWidth="12.0" />
+                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="60.0" percentWidth="12.0" />
+                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="60.0" percentWidth="12.0" />
+                                        </columnConstraints>
+                                        <children>
+                                            <Label text="Disciplina" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #64748b;" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                            <Label text="Código" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #64748b;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                            <Label text="Questões" alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #64748b;" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                            <Label text="Provas" alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #64748b;" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                                            <Label text="Fáceis" alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #64748b;" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+                                            <Label text="Médias" alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #64748b;" GridPane.columnIndex="5" GridPane.rowIndex="0" />
+                                            <Label text="Difíceis" alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #64748b;" GridPane.columnIndex="6" GridPane.rowIndex="0" />
+                                        </children>
+                                    </GridPane>
+                                </children>
+                            </VBox>
+
+                            <VBox style="-fx-background-color: #ffffff; -fx-background-radius: 12; -fx-border-color: #e2e8f0; -fx-border-radius: 12; -fx-padding: 20;" spacing="15.0">
+                                <children>
+                                    <Label text="Histórico de Provas Criadas" style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+
+                                    <GridPane fx:id="gridProvas" hgap="10.0" vgap="14.0" maxWidth="1.7976931348623157E308">
+                                        <columnConstraints>
+                                            <ColumnConstraints hgrow="ALWAYS" minWidth="130.0" percentWidth="25.0" />
+                                            <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" percentWidth="30.0" />
+                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" percentWidth="15.0" />
+                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="70.0" percentWidth="13.0" />
+                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" percentWidth="17.0" />
+                                        </columnConstraints>
+                                        <children>
+                                            <Label text="Título" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #64748b;" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                            <Label text="Disciplina" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #64748b;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                            <Label text="Semestre" alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #64748b;" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                                            <Label text="Questões" alignment="CENTER" maxWidth="1.7976931348623157E308" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #64748b;" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                                            <Label text="Data de Criação" alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" style="-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: #64748b;" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+                                        </children>
+                                    </GridPane>
+                                </children>
+                            </VBox>
+
+                        </children>
+                    </VBox>
+                </content>
+            </ScrollPane>
+        </center>
+    </BorderPane>
+</StackPane>
