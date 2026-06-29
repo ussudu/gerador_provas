@@ -129,7 +129,7 @@
                                 <VBox alignment="CENTER" spacing="4.0">
                                     <children>
                                         <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1e293b;" text="Nenhuma questão cadastrada" />
-                                        <Label style="-fx-font-size: 13px; -fx-text-fill: #64748b;" text="Utilize o botão acima para cadastrar a primeira." />
+                                        <Label style="-fx-font-size: 13px; -fx-text-fill: #64748b;" text="Comece criando sua primeira questão." />
                                     </children>
                                 </VBox>
                             </children>

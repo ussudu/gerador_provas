@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="700.0" styleClass="container" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="700.0" styleClass="container" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presenter.controllers.HomeController">
 
     <top>
         <fx:include source="header.fxml" />
@@ -47,10 +47,10 @@
                 <VBox prefHeight="250.0" prefWidth="582.0" spacing="20.0">
                     <children>
 
-                        <HBox spacing="15.0">
+                        <HBox spacing="15.0" maxWidth="1.7976931348623157E308">
                             <children>
 
-                                <VBox fx:id="cardProvas" prefHeight="130.0" prefWidth="180.0" styleClass="card-dashboard" stylesheets="@../styles/home.css">
+                                <VBox fx:id="cardProvas" prefHeight="130.0" maxWidth="1.7976931348623157E308" styleClass="card-dashboard" stylesheets="@../styles/home.css" HBox.hgrow="ALWAYS">
                                     <children>
                                         <HBox alignment="TOP_CENTER">
                                             <children>
@@ -72,7 +72,7 @@
                                     </children>
                                 </VBox>
 
-                                <VBox fx:id="cardQuestoes" prefHeight="130.0" prefWidth="180.0" styleClass="card-dashboard" stylesheets="@../styles/home.css">
+                                <VBox fx:id="cardQuestoes" prefHeight="130.0" maxWidth="1.7976931348623157E308" styleClass="card-dashboard" stylesheets="@../styles/home.css" HBox.hgrow="ALWAYS">
                                     <children>
                                         <HBox alignment="TOP_CENTER">
                                             <children>
@@ -94,7 +94,7 @@
                                     </children>
                                 </VBox>
 
-                                <VBox fx:id="cardDisciplinas" prefHeight="130.0" prefWidth="180.0" styleClass="card-dashboard" stylesheets="@../styles/home.css">
+                                <VBox fx:id="cardDisciplinas" prefHeight="130.0" maxWidth="1.7976931348623157E308" styleClass="card-dashboard" stylesheets="@../styles/home.css" HBox.hgrow="ALWAYS">
                                     <children>
                                         <HBox alignment="TOP_CENTER">
                                             <children>
@@ -119,10 +119,10 @@
                             </children>
                         </HBox>
 
-                        <HBox spacing="15.0">
+                        <HBox spacing="15.0" maxWidth="1.7976931348623157E308">
                             <children>
 
-                                <Button fx:id="btnNovaProva" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="80.0" styleClass="card-acao-home" stylesheets="@../styles/home.css" HBox.hgrow="ALWAYS">
+                                <Button fx:id="btnNovaProva" maxWidth="1.7976931348623157E308" prefWidth="0.0" mnemonicParsing="false" prefHeight="80.0" styleClass="card-acao-home" stylesheets="@../styles/home.css" HBox.hgrow="ALWAYS">
                                     <graphic>
                                         <HBox alignment="CENTER_LEFT" spacing="12.0">
                                             <children>
@@ -142,7 +142,7 @@
                                     </graphic>
                                 </Button>
 
-                                <Button fx:id="btnNovaQuestao" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="80.0" styleClass="card-acao-home" stylesheets="@../styles/home.css" HBox.hgrow="ALWAYS">
+                                <Button fx:id="btnNovaQuestao" maxWidth="1.7976931348623157E308" prefWidth="0.0" mnemonicParsing="false" prefHeight="80.0" styleClass="card-acao-home" stylesheets="@../styles/home.css" HBox.hgrow="ALWAYS">
                                     <graphic>
                                         <HBox alignment="CENTER_LEFT" spacing="12.0">
                                             <children>
