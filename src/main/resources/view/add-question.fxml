@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -12,8 +13,9 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefWidth="550.0" spacing="15.0" styleClass="fundo-modal" stylesheets="@../styles/question.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presenter.controllers.AddQuestionController">    <padding>
-        <Insets bottom="24.0" left="24.0" right="24.0" top="20.0" />
+<VBox prefHeight="620.0" prefWidth="550.0" spacing="15.0" styleClass="fundo-modal" stylesheets="@../styles/question.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presenter.controllers.AddQuestionController">
+    <padding>
+        <Insets bottom="15.0" left="24.0" right="24.0" top="20.0" />
     </padding>
     <children>
 
@@ -33,94 +35,119 @@
             </children>
         </HBox>
 
-        <HBox spacing="15.0">
-            <children>
-                <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+            <content>
+                <VBox spacing="15.0" style="-fx-background-color: transparent;">
+                    <padding>
+                        <Insets right="10.0" top="5.0" bottom="5.0" />
+                    </padding>
                     <children>
-                        <Label styleClass="input-label" text="Código" />
-                        <TextField fx:id="txtCodigo" prefHeight="40.0" promptText="Ex: Q001" styleClass="input-field" />
+
+                        <HBox spacing="15.0">
+                            <children>
+                                <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label styleClass="input-label" text="Código da Questão" />
+                                        <TextField fx:id="txtCodigo" disable="true" prefHeight="35.0" promptText="Gerado Automaticamente" styleClass="input-field" />
+                                    </children>
+                                </VBox>
+                                <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label styleClass="input-label" text="Tipo de Questão" />
+                                        <ComboBox fx:id="cbTipo" maxWidth="Infinity" prefHeight="35.0" styleClass="input-field" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+
+                        <HBox spacing="15.0">
+                            <children>
+                                <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label styleClass="input-label" text="Disciplina" />
+                                        <ComboBox fx:id="cbDisciplina" maxWidth="Infinity" prefHeight="35.0" styleClass="input-field" />
+                                    </children>
+                                </VBox>
+                                <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label styleClass="input-label" text="Assunto / Tópico" />
+                                        <TextField fx:id="txtAssunto" prefHeight="35.0" promptText="Ex: Redes Quânticas" styleClass="input-field" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+
+                        <VBox spacing="8.0">
+                            <children>
+                                <Label styleClass="input-label" text="Nível de Dificuldade" />
+                                <ComboBox fx:id="cbNivel" maxWidth="Infinity" prefHeight="35.0" styleClass="input-field" />
+                            </children>
+                        </VBox>
+
+                        <VBox spacing="8.0">
+                            <children>
+                                <Label styleClass="input-label" text="Enunciado da Questão" />
+                                <TextArea fx:id="txtEnunciado" prefHeight="100.0" promptText="Digite aqui o comando ou pergunta..." styleClass="input-field" wrapText="true" />
+                            </children>
+                        </VBox>
+
+                        <VBox fx:id="blocoMultiplaEscolha" spacing="12.0">
+                            <children>
+                                <Label styleClass="input-label" text="Alternativas de Resposta" />
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label styleClass="label-opcao-letra" text="A)" />
+                                        <TextField fx:id="txtOpcaoA" prefHeight="35.0" promptText="Opção A" styleClass="input-field" HBox.hgrow="ALWAYS" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label styleClass="label-opcao-letra" text="B)" />
+                                        <TextField fx:id="txtOpcaoB" prefHeight="35.0" promptText="Opção B" styleClass="input-field" HBox.hgrow="ALWAYS" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label styleClass="label-opcao-letra" text="C)" />
+                                        <TextField fx:id="txtOpcaoC" prefHeight="35.0" promptText="Opção C" styleClass="input-field" HBox.hgrow="ALWAYS" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Label styleClass="label-opcao-letra" text="D)" />
+                                        <TextField fx:id="txtOpcaoD" prefHeight="35.0" promptText="Opção D" styleClass="input-field" HBox.hgrow="ALWAYS" />
+                                    </children>
+                                </HBox>
+                                <VBox spacing="8.0">
+                                    <children>
+                                        <Label styleClass="input-label" text="Gabarito (Letra correta)" />
+                                        <ComboBox fx:id="cbGabarito" maxWidth="Infinity" prefHeight="35.0" promptText="Selecione..." styleClass="input-field" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </VBox>
+
+                        <VBox fx:id="blocoDiscursiva" spacing="12.0">
+                            <children>
+                                <VBox spacing="8.0">
+                                    <children>
+                                        <Label styleClass="input-label" text="Linhas Estimadas para Resposta" />
+                                        <TextField fx:id="txtLinhasEsperadas" prefHeight="35.0" promptText="Ex: 10" styleClass="input-field" />
+                                    </children>
+                                </VBox>
+                                <VBox spacing="8.0">
+                                    <children>
+                                        <Label styleClass="input-label" text="Resposta Ideal / Expectativa de Resposta" />
+                                        <TextArea fx:id="txtRespostaDiscursiva" prefHeight="80.0" promptText="Escreva o texto contendo os critérios ou a resposta aceitável..." styleClass="input-field" wrapText="true" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </VBox>
+
                     </children>
                 </VBox>
-                <VBox spacing="8.0" HBox.hgrow="ALWAYS">
-                    <children>
-                        <Label styleClass="input-label" text="Tipo" />
-                        <ComboBox fx:id="cbTipo" maxWidth="Infinity" prefHeight="40.0" promptText="Múltipla Escolha" styleClass="input-field" />
-                    </children>
-                </VBox>
-            </children>
-        </HBox>
-
-        <HBox spacing="15.0">
-            <children>
-                <VBox spacing="8.0" HBox.hgrow="ALWAYS">
-                    <children>
-                        <Label styleClass="input-label" text="Disciplina" />
-                        <ComboBox fx:id="cbDisciplina" maxWidth="Infinity" prefHeight="40.0" promptText="Selecione..." styleClass="input-field" />
-                    </children>
-                </VBox>
-                <VBox spacing="8.0" HBox.hgrow="ALWAYS">
-                    <children>
-                        <Label styleClass="input-label" text="Assunto" />
-                        <TextField fx:id="txtAssunto" prefHeight="40.0" promptText="Ex: TCP/IP" styleClass="input-field" />
-                    </children>
-                </VBox>
-            </children>
-        </HBox>
-
-        <VBox spacing="8.0">
-            <children>
-                <Label styleClass="input-label" text="Nível de Dificuldade" />
-                <ComboBox fx:id="cbNivel" maxWidth="Infinity" prefHeight="40.0" promptText="Médio" styleClass="input-field" />
-            </children>
-        </VBox>
-
-        <VBox spacing="8.0">
-            <children>
-                <Label styleClass="input-label" text="Enunciado" />
-                <TextArea fx:id="txtEnunciado" prefHeight="80.0" promptText="Digite o enunciado da questão..." styleClass="input-field" wrapText="true" />
-            </children>
-        </VBox>
-
-        <VBox spacing="10.0">
-            <children>
-                <Label styleClass="input-label" text="Opções" />
-
-                <HBox alignment="CENTER_LEFT" spacing="10.0">
-                    <children>
-                        <Label styleClass="label-opcao-letra" text="A)" />
-                        <TextField fx:id="txtOpcaoA" prefHeight="35.0" promptText="Opção A" styleClass="input-field" HBox.hgrow="ALWAYS" />
-                    </children>
-                </HBox>
-
-                <HBox alignment="CENTER_LEFT" spacing="10.0">
-                    <children>
-                        <Label styleClass="label-opcao-letra" text="B)" />
-                        <TextField fx:id="txtOpcaoB" prefHeight="35.0" promptText="Opção B" styleClass="input-field" HBox.hgrow="ALWAYS" />
-                    </children>
-                </HBox>
-
-                <HBox alignment="CENTER_LEFT" spacing="10.0">
-                    <children>
-                        <Label styleClass="label-opcao-letra" text="C)" />
-                        <TextField fx:id="txtOpcaoC" prefHeight="35.0" promptText="Opção C" styleClass="input-field" HBox.hgrow="ALWAYS" />
-                    </children>
-                </HBox>
-
-                <HBox alignment="CENTER_LEFT" spacing="10.0">
-                    <children>
-                        <Label styleClass="label-opcao-letra" text="D)" />
-                        <TextField fx:id="txtOpcaoD" prefHeight="35.0" promptText="Opção D" styleClass="input-field" HBox.hgrow="ALWAYS" />
-                    </children>
-                </HBox>
-            </children>
-        </VBox>
-
-        <VBox spacing="8.0">
-            <children>
-                <Label styleClass="input-label" text="Gabarito (letra correta)" />
-                <ComboBox fx:id="cbGabarito" maxWidth="Infinity" prefHeight="40.0" promptText="Selecione..." styleClass="input-field" />
-            </children>
-        </VBox>
+            </content>
+        </ScrollPane>
 
         <HBox alignment="CENTER_RIGHT" spacing="12.0">
             <children>
@@ -128,7 +155,7 @@
                 <Button fx:id="btnSalvar" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" styleClass="btn-primary" text="Salvar" />
             </children>
             <VBox.margin>
-                <Insets top="10.0" />
+                <Insets top="5.0" />
             </VBox.margin>
         </HBox>
 
