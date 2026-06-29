@@ -15,8 +15,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="700.0" styleClass="container" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="700.0" styleClass="container" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presenter.controllers.QuestionController">
     <top>
         <fx:include source="header.fxml" />
     </top>
@@ -66,8 +65,7 @@
                                 <VBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="58.0" prefWidth="160.0" stylesheets="@../styles/exam.css">
                                     <children>
                                         <Label styleClass="label-campo-filtro" stylesheets="@../styles/exam.css" text="Disciplina" />
-                                        <MenuButton minHeight="-Infinity" mnemonicParsing="false" prefHeight="32.0" prefWidth="160.0" styleClass="menu-btn" stylesheets="@../styles/exam.css" text="Todas">
-                                            <items>
+                                        <MenuButton fx:id="menuNivel" minHeight="-Infinity" mnemonicParsing="false" prefHeight="32.0" prefWidth="140.0" styleClass="menu-btn" stylesheets="@../styles/exam.css" text="Todos">                                            <items>
                                                 <MenuItem mnemonicParsing="false" text="Redes Futuristas" />
                                                 <MenuItem mnemonicParsing="false" text="Outra Disciplina" />
                                             </items>

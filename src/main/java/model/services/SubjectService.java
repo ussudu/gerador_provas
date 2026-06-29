@@ -52,16 +52,16 @@ public class SubjectService {
         }
         return subjectDAO.findByTeacher(teacherId);
     }
-    
+
     private void validate(Subject subject) {
         if (subject == null) {
             throw new RegraNegocioException("A disciplina não pode ser nula.");
         }
-        
+
         if (subject.getName() == null || subject.getName().trim().isEmpty()) {
             throw new RegraNegocioException("O nome da disciplina é obrigatório.");
         }
-        
+
         if (subject.getCode() == null || subject.getCode().trim().isEmpty()) {
             throw new RegraNegocioException("O código da disciplina é obrigatório.");
         }
@@ -69,10 +69,11 @@ public class SubjectService {
             throw new RegraNegocioException("Os assuntos da disciplina são obrigatórios.");
         }
 
-        if (subject.getTeacher() == null || 
-            subject.getTeacher().getUser() == null || 
-            subject.getTeacher().getUser().getIdUser() <= 0) {
-            throw new RegraNegocioException("A disciplina deve estar vinculada a um professor válido.");
+        //  VALIDAÇÃO CORRIGIDA: Pega o User dentro do Teacher para validar o ID
+        if (subject.getTeacher() == null ||
+                subject.getTeacher().getUser() == null ||
+                subject.getTeacher().getUser().getIdUser() <= 0) {
+            throw new RegraNegocioException("O professor associado à disciplina é inválido ou obrigatório.");
         }
     }
 }
