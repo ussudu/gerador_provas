@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="12.0" styleClass="cartao-questao" stylesheets="@../styles/question.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="12.0" styleClass="cartao-questao" stylesheets="@../styles/question.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presenter.controllers.CardQuestionController">
     <padding>
         <Insets bottom="16.0" left="20.0" right="20.0" top="16.0" />
     </padding>
@@ -17,9 +17,9 @@
 
         <HBox alignment="CENTER_LEFT" spacing="8.0">
             <children>
-                <Label styleClass="badge-padrao" text="RF-001" />
-                <Label styleClass="badge-medio" text="MÉDIO" />
-                <Label styleClass="badge-padrao" text="Múltipla Escolha" />
+                <Label fx:id="lblIdQuestao" styleClass="badge-padrao" text="RF-001" />
+                <Label fx:id="lblNivelQuestao" styleClass="badge-medio" text="MÉDIO" />
+                <Label fx:id="lblTipoQuestao" styleClass="badge-padrao" text="Múltipla Escolha" />
 
                 <Region HBox.hgrow="ALWAYS" />
 
@@ -27,7 +27,7 @@
                     <graphic>
                         <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../icons/olho.png" />
+                                <Image url="@../icons/editar.png" />
                             </image>
                         </ImageView>
                     </graphic>
@@ -44,23 +44,23 @@
             </children>
         </HBox>
 
-        <Label styleClass="txt-caminho" text="Redes Futuristas &gt; Redes Quânticas" />
+        <Label fx:id="lblCaminho" styleClass="txt-caminho" text="Redes Futuristas &gt; Redes Quânticas" />
 
-        <Label styleClass="txt-enunciado" text="O que é computação quântica no contexto de redes?" wrapText="true" />
+        <Label fx:id="lblEnunciado" styleClass="txt-enunciado" text="O que é computação quântica no contexto de redes?" wrapText="true" />
 
-        <VBox spacing="6.0">
+        <VBox fx:id="boxAlternativas" spacing="6.0">
             <children>
-                <Label styleClass="txt-opcao" text="A) Uso de bits quânticos para transmissão de dados com segurança absoluta" wrapText="true" />
-                <Label styleClass="txt-opcao" text="B) Redes que funcionam apenas em temperatura ambiente" wrapText="true" />
-                <Label styleClass="txt-opcao" text="C) Conexões sem fio de alta velocidade" wrapText="true" />
-                <Label styleClass="txt-opcao" text="D) Protocolo de internet versão 7" wrapText="true" />
+                <Label fx:id="lblOpcaoA" styleClass="txt-opcao" text="A) Uso de bits quânticos para transmissão de dados com segurança absoluta" wrapText="true" />
+                <Label fx:id="lblOpcaoB" styleClass="txt-opcao" text="B) Redes que funcionam apenas em temperatura ambiente" wrapText="true" />
+                <Label fx:id="lblOpcaoC" styleClass="txt-opcao" text="C) Conexões sem fio de alta velocidade" wrapText="true" />
+                <Label fx:id="lblOpcaoD" styleClass="txt-opcao" text="D) Protocolo de internet versão 7" wrapText="true" />
             </children>
             <VBox.margin>
                 <Insets bottom="5.0" top="5.0" />
             </VBox.margin>
         </VBox>
 
-        <Label styleClass="txt-gabarito" text="Gabarito: A" />
+        <Label fx:id="lblGabarito" styleClass="txt-gabarito" text="Gabarito: A" />
 
     </children>
 </VBox>
