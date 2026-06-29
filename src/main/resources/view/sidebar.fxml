@@ -3,13 +3,13 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="103.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="103.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presenter.controllers.SidebarController">
    <children>
-      <Button maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="botao-menu" stylesheets="@../styles/sidebar.css" text="Início" />
-      <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="botao-menu" stylesheets="@../styles/sidebar.css" text="Disciplinas" />
-      <Button maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="botao-menu" stylesheets="@../styles/sidebar.css" text="Questões" />
-      <Button maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="botao-menu" stylesheets="@../styles/sidebar.css" text="Provas" />
-      <Button maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="botao-menu" stylesheets="@../styles/sidebar.css" text="Relatórios" />
-      <Button maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="botao-menu" stylesheets="@../styles/sidebar.css" text="Usuários" />
+      <Button fx:id="btnHome" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="botao-menu" stylesheets="@../styles/sidebar.css" text="Início" />
+      <Button fx:id="btnSubjects" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="botao-menu" stylesheets="@../styles/sidebar.css" text="Disciplinas" />
+      <Button fx:id="btnQuestions" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="botao-menu" stylesheets="@../styles/sidebar.css" text="Questões" />
+      <Button fx:id="btnExams" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="botao-menu" stylesheets="@../styles/sidebar.css" text="Provas" />
+      <Button fx:id="btnReports" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="botao-menu" stylesheets="@../styles/sidebar.css" text="Relatórios" />
+      <Button fx:id="btnUsers" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" styleClass="botao-menu" stylesheets="@../styles/sidebar.css" text="Usuários" />
    </children>
 </VBox>
