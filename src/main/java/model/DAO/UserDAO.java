@@ -106,6 +106,7 @@ public class UserDAO {
             stmt.setString(1, email);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
+                    System.out.println("DEBUG: Encontrei o usuário no banco! ID: " + rs.getInt("id_user")); // <--- ADICIONE ISSO
                     return instantiateUser(rs);
                 }
             }

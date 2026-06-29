@@ -12,7 +12,7 @@ import model.entities.Teacher;
 public class TeacherDAO {
 
     public void insert(Teacher teacher) {
-        String sql = "INSERT INTO teacher (teacher_id, registration_number) VALUES (?, ?)";
+        String sql = "INSERT INTO teacher (user_id, registration_number) VALUES (?, ?)";
 
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

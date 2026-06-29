@@ -12,7 +12,7 @@ import model.entities.Admin;
 public class AdminDAO {
 
     public void insert(Admin admin) {
-        String sql = "INSERT INTO admin (admin_id) VALUES (?)";
+        String sql = "INSERT INTO admin (user_id) VALUES (?)";
 
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

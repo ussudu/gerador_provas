@@ -51,7 +51,7 @@ public class TeacherService {
         }
         return teacher;
     }
-    public void inactivateAdmin(Teacher teacher) {
+    public void inactivateTeacher(Teacher teacher) {
         if (teacher == null || teacher.getUser() == null || teacher.getUser().getIdUser() <= 0) {
             throw new RegraNegocioException("Professor inválido para inativação.");
         }
