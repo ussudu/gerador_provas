@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefWidth="480.0" spacing="20.0" styleClass="fundo-modal" stylesheets="@../styles/subject.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
-    <padding>
+<VBox prefWidth="480.0" spacing="20.0" styleClass="fundo-modal" stylesheets="@../styles/subject.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presenter.controllers.AddSubjectController">    <padding>
         <Insets bottom="24.0" left="24.0" right="24.0" top="20.0" />
     </padding>
     <children>

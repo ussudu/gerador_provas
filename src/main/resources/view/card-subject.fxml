@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="190.0" prefWidth="220.0" styleClass="cartao-disciplina" stylesheets="@../styles/subject.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
-    <padding>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="190.0" prefWidth="220.0" styleClass="cartao-disciplina" stylesheets="@../styles/subject.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presenter.controllers.CardSubjectController">    <padding>
         <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
     </padding>
     <children>
@@ -31,8 +30,8 @@
 
                 <VBox spacing="2.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <Label styleClass="txt-titulo-disciplina" stylesheets="@../styles/subject.css" text="Redes Futuristas" wrapText="true" />
-                        <Label styleClass="txt-codigo" stylesheets="@../styles/subject.css" text="Código: RF001" />
+                        <Label fx:id="lblNome" styleClass="txt-titulo-disciplina" stylesheets="@../styles/subject.css" text="Redes Futuristas" wrapText="true" />
+                        <Label fx:id="lblCodigo" styleClass="txt-codigo" stylesheets="@../styles/subject.css" text="Código: RF001" />
                     </children>
                 </VBox>
 
@@ -42,7 +41,7 @@
                             <graphic>
                                 <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../icons/olho.png" />
+                                        <Image url="@../icons/editar.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
@@ -78,11 +77,11 @@
                                 <Image url="@../icons/tag.png" />
                             </image>
                         </ImageView>
-                        <Label styleClass="txt-subtitulo-assuntos" stylesheets="@../styles/subject.css" text="Assuntos (5)" />
+                        <Label fx:id="lblQtdAssuntos" styleClass="txt-subtitulo-assuntos" stylesheets="@../styles/subject.css" text="Assuntos (5)" />
                     </children>
                 </HBox>
 
-                <FlowPane hgap="6.0" stylesheets="@../styles/subject.css" vgap="6.0">
+                <FlowPane fx:id="flowPaneTags" hgap="6.0" stylesheets="@../styles/subject.css" vgap="6.0">
                     <children>
                         <Label styleClass="tag-assunto" text="Redes Quânticas" />
                         <Label styleClass="tag-assunto" text="IoT Avançado" />
