@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.entities.User;
 import model.entities.UserRole;
@@ -78,6 +80,19 @@ public class UserDAO {
             throw new RuntimeException("Erro ao inativar usuário: " + e.getMessage(), e);
         }
     }
+    public void activate(int idUser) {
+        String sql = "UPDATE user SET status = true WHERE id_user = ?";
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idUser);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao ativar usuário: " + e.getMessage(), e);
+        }
+    }
 
     public User findById(int idUser) {
         String sql = "SELECT * FROM user WHERE id_user = ?";
@@ -95,6 +110,24 @@ public class UserDAO {
             throw new RuntimeException("Erro ao buscar usuário por ID: " + e.getMessage(), e);
         }
         return null;
+    }
+    public List<User> findAll() {
+        List<User> list = new ArrayList<>();
+        String sql = "SELECT * FROM user";
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                list.add(instantiateUser(rs));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar a lista de usuários: " + e.getMessage(), e);
+        }
+
+        return list;
     }
 
     public User findByEmail(String email) {

@@ -18,7 +18,7 @@ public class TeacherDAO {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, teacher.getUser().getIdUser());
-            setStatementParams(stmt, teacher, 2); 
+            setStatementParams(stmt, teacher, 2);
             stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -27,7 +27,7 @@ public class TeacherDAO {
     }
 
     public void update(Teacher teacher) {
-        String sql = "UPDATE teacher SET registration_number = ? WHERE teacher_id = ?";
+        String sql = "UPDATE teacher SET registration_number = ? WHERE user_id = ?";
 
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -42,7 +42,7 @@ public class TeacherDAO {
     }
 
     public List<Teacher> findAll() {
-        String sql = "SELECT t.*, u.* FROM teacher t INNER JOIN user u ON t.teacher_id = u.id_user WHERE u.status = true";
+        String sql = "SELECT t.*, u.* FROM teacher t INNER JOIN user u ON t.user_id = u.id_user WHERE u.status = true";
         List<Teacher> list = new ArrayList<>();
 
         try (Connection conn = ConnectionFactory.getConnection();
@@ -59,13 +59,13 @@ public class TeacherDAO {
         return list;
     }
 
-    public Teacher findById(int idTeacher) {
-        String sql = "SELECT t.*, u.* FROM teacher t INNER JOIN user u ON t.teacher_id = u.id_user WHERE t.teacher_id = ?";
-        
+    public Teacher findById(int userId) {
+        String sql = "SELECT t.*, u.* FROM teacher t INNER JOIN user u ON t.user_id = u.id_user WHERE t.user_id = ?";
+
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            
-            stmt.setInt(1, idTeacher);
+
+            stmt.setInt(1, userId);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return instantiateTeacher(rs);
@@ -84,9 +84,9 @@ public class TeacherDAO {
     private Teacher instantiateTeacher(ResultSet rs) throws SQLException {
         Teacher teacher = new Teacher();
         teacher.setRegistration_number(rs.getString("registration_number"));
-        
+
         teacher.setUser(UserDAO.instantiateUser(rs));
-        
+
         return teacher;
     }
 }

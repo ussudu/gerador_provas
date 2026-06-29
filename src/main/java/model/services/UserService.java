@@ -4,6 +4,8 @@ import model.DAO.UserDAO;
 import model.entities.User;
 import model.exceptions.RegraNegocioException;
 
+import java.util.List;
+
 public class UserService {
 
     private UserDAO userDAO;
@@ -52,6 +54,12 @@ public class UserService {
         }
         userDAO.inactivate(idUser);
     }
+    public void activate(int idUser) {
+        if (idUser <= 0) {
+            throw new RegraNegocioException("ID do usuário inválido para ativação.");
+        }
+        userDAO.activate(idUser);
+    }
 
     public User authenticate(String email, String password) {
         if (email == null || password == null || email.trim().isEmpty() || password.trim().isEmpty()) {
@@ -64,6 +72,15 @@ public class UserService {
             throw new RegraNegocioException("Credenciais inválidas ou usuário inativo. Verifique seu e-mail e senha.");
         }
         return user;
+    }
+    public List<User> findAll() {
+        try {
+            List<User> usuarios = userDAO.findAll();
+            return usuarios;
+
+        } catch (Exception e) {
+            throw new RegraNegocioException("Não foi possível carregar a lista de usuários. " + e.getMessage());
+        }
     }
 
     private void validate(User user) {

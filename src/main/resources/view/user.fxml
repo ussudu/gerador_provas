@@ -2,17 +2,19 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.layout.StackPane?>
-
-<StackPane fx:id="rootStackPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seu.pacote.MainController">
+<StackPane xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presenter.controllers.UserController">
    <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="700.0" styleClass="container" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
       
       <top>
@@ -39,7 +41,7 @@
                         </children>
                      </VBox>
                      <Region maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                     <Button mnemonicParsing="false" styleClass="btn-acao" stylesheets="@../styles/exam.css" text="Novo usuário" />
+                     <Button mnemonicParsing="false" onAction="#handleOpenCreateModal" styleClass="btn-acao" stylesheets="@../styles/exam.css" text="Novo usuário" />
                   </children>
                   <padding>
                      <Insets bottom="12.0" />
@@ -58,7 +60,7 @@
                         </children>
                      </HBox>
 
-                     <VBox spacing="5.0" styleClass="tabela-container" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+                     <VBox fx:id="vboxUsersList" spacing="5.0" styleClass="tabela-container" stylesheets="@../styles/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
                         <children>
                            
                            <HBox alignment="CENTER_LEFT" prefHeight="50.0" styleClass="tabela-header">
@@ -68,41 +70,6 @@
                                  <Label maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="80.0" styleClass="label-form" text="Tipo" HBox.hgrow="ALWAYS" />
                                  <Label maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="50.0" styleClass="label-form" text="Status" HBox.hgrow="ALWAYS" />
                                  <Label alignment="CENTER" prefWidth="80.0" styleClass="label-form" text="Ações" />
-                              </children>
-                              <padding>
-                                 <Insets left="10.0" right="10.0" />
-                              </padding>
-                           </HBox>
-
-                           <HBox alignment="CENTER_LEFT" prefHeight="60.0" styleClass="tabela-linha">
-                              <children>
-                                 <Label maxWidth="360.0" minWidth="-Infinity" prefWidth="150.0" styleClass="label-form" text="Administrador" HBox.hgrow="ALWAYS" />
-                                 <Label maxWidth="380.0" minWidth="-Infinity" prefWidth="170.0" styleClass="label-form" text="admin@sistema.com" HBox.hgrow="ALWAYS" />
-                                 <Label maxWidth="365.0" minWidth="-Infinity" prefWidth="80.0" styleClass="label-form" text="ADMIN" HBox.hgrow="ALWAYS" />
-                                 <Label maxWidth="360.0" minWidth="-Infinity" prefWidth="50.0" styleClass="label-form" text="Ativo" HBox.hgrow="ALWAYS" />
-                                 
-                                 <HBox alignment="CENTER" prefWidth="80.0" spacing="1.0">
-                                    <children>
-                                       <Button mnemonicParsing="false" styleClass="btn-acao-card">
-                                          <graphic>
-                                             <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                                                <image>
-                                                   <Image url="@../icons/editar.png" />
-                                                </image>
-                                             </ImageView>
-                                          </graphic>
-                                       </Button>
-                                       <Button mnemonicParsing="false" styleClass="btn-acao-card">
-                                          <graphic>
-                                             <ImageView fitHeight="16.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                                                <image>
-                                                   <Image url="@../icons/lixo.png" />
-                                                </image>
-                                             </ImageView>
-                                          </graphic>
-                                       </Button>
-                                    </children>
-                                 </HBox>
                               </children>
                               <padding>
                                  <Insets left="10.0" right="10.0" />
@@ -120,5 +87,46 @@
          </VBox>
       </center>
       
-   </BorderPane>   
+   </BorderPane>
+   <VBox fx:id="modalUserForm" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="150.0" prefWidth="350.0" style="-fx-background-color: #FFFFFF" styleClass="container-login" stylesheets="@../styles/style.css" visible="false">
+      <children>
+         <HBox alignment="TOP_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0">
+            <children>
+               <Button alignment="TOP_RIGHT" mnemonicParsing="false" onAction="#handleCloseModal" styleClass="btn-acao-card" stylesheets="@../styles/exam.css" text="X" />
+            </children>
+         </HBox>
+         <Label fx:id="lblFormTitle" alignment="CENTER" contentDisplay="CENTER" styleClass="titulo-login" stylesheets="@../styles/style.css" text="Cadastro" />
+         <VBox prefHeight="200.0" prefWidth="100.0">
+            <children>
+               <Label styleClass="label-campo" stylesheets="@../styles/style.css" text="Nome" />
+               <TextField fx:id="txtName" prefHeight="14.0" prefWidth="268.0" promptText="Nome completo" styleClass="campo-texto" stylesheets="@../styles/style.css" />
+            </children>
+         </VBox>
+         <VBox prefHeight="200.0" prefWidth="100.0">
+            <children>
+               <Label styleClass="label-campo" stylesheets="@../styles/style.css" text="Email" />
+               <TextField fx:id="txtEmail" promptText="email@email.com" styleClass="campo-texto" stylesheets="@../styles/style.css" />
+            </children>
+         </VBox>
+         <VBox prefHeight="200.0" prefWidth="100.0">
+            <children>
+               <Label fx:id="lblPassword" styleClass="label-campo" stylesheets="@../styles/style.css" text="Senha" />
+               <PasswordField fx:id="txtPassword" promptText="Mínimo 8 caracteres" styleClass="campo-texto" />
+            </children>
+         </VBox>
+         <VBox prefHeight="200.0" prefWidth="100.0">
+            <children>
+               <Label styleClass="label-campo" stylesheets="@../styles/style.css" text="Tipo" />
+               <ComboBox fx:id="cbRole" maxWidth="1.7976931348623157E308" prefWidth="150.0" promptText="Professor" styleClass="menu-btn" stylesheets="@../styles/exam.css" />
+            </children>
+         </VBox>
+         <VBox prefHeight="200.0" prefWidth="100.0">
+            <children>
+               <Label fx:id="lblRegistrationNumber" styleClass="label-campo" stylesheets="@../styles/style.css" text="Matrícula" />
+               <TextField fx:id="txtRegistrationNumber" prefHeight="14.0" prefWidth="268.0" promptText="111222333" styleClass="campo-texto" stylesheets="@../styles/style.css" />
+            </children>
+         </VBox>
+         <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleSaveUser" styleClass="botao-primario" stylesheets="@../styles/style.css" text="Salvar" />
+      </children>
+   </VBox>
 </StackPane>
