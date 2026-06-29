@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 
-<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="79.0" styleClass="header-container" stylesheets="@../styles/header.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="79.0" styleClass="header-container" stylesheets="@../styles/header.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presenter.controllers.HeaderController">
    <children>
       <StackPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="38.0" prefWidth="35.0" styleClass="icon" stylesheets="@../styles/header.css">
          <children>
@@ -21,7 +21,7 @@
       </StackPane>
       <Label styleClass="header-titulo" stylesheets="@../styles/header.css" text="Gerenciador de Provas" />
       <Region maxWidth="1.7976931348623157E308" prefHeight="200.0" HBox.hgrow="ALWAYS" />
-      <Button mnemonicParsing="false" styleClass="btn-sair" stylesheets="@../styles/header.css">
+      <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#btnLogout" styleClass="btn-sair" stylesheets="@../styles/header.css" visible="false">
          <graphic>
             <ImageView fitHeight="21.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                <image>

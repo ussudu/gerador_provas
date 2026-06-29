@@ -51,8 +51,8 @@ public class SignUpController {
         try {
             User newuser = new User(name, email, password, UserRole.TEACHER);
             Teacher newteacher = new Teacher(newuser, registrationNumber);
-
             teacherService.insert(newteacher);
+            SceneManager.getInstance().navigateTo("/view/login.fxml", "Cadastro de Professor");
 
         } catch (Exception e) {
             lbError.setText(e.getMessage());

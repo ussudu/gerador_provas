@@ -9,6 +9,7 @@ import model.DAO.UserDAO;
 import model.entities.User;
 import model.services.UserService;
 import presenter.utils.SceneManager;
+import presenter.utils.SessionManager;
 
 public class LoginController {
     @FXML
@@ -37,6 +38,7 @@ public class LoginController {
             User user = userService.authenticate(email, password);
 
             if (user != null) {
+                SessionManager.getInstance().login(user);
                 SceneManager.getInstance().navigateTo("/view/home.fxml", "Página inicial do usuário");
             } else {
                 showLoginError();
